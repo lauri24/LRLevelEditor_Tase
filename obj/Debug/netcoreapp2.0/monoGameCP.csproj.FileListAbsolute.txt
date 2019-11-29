@@ -1,0 +1,10 @@
+c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.csproj.CoreCompileInputs.cache
+c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.AssemblyInfoInputs.cache
+c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.AssemblyInfo.cs
+C:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.deps.json
+C:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.runtimeconfig.json
+C:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.runtimeconfig.dev.json
+c:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.dll
+c:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.pdb
+c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.dll
+c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.pdb

@@ -1,0 +1,207 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "1f88a81272270bf1cdb591b42cc52e1f692f3880"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "monoGameCP/1.0.0": {
+        "dependencies": {
+          "MonoGame.Content.Builder": "3.7.0.9",
+          "MonoGame.Framework.DesktopGL.Core": "3.7.0.7",
+          "Newtonsoft.Json": "12.0.3",
+          "System.IO.FileSystem": "4.3.0"
+        },
+        "runtime": {
+          "monoGameCP.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Targets/1.1.0": {},
+      "MonoGame.Content.Builder/3.7.0.9": {},
+      "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Framework.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libSDL2-2.so": {
+            "rid": "linux-x64",
+            "assetType": "native"
+          },
+          "runtimes/linux-x64/native/libopenal.so": {
+            "rid": "linux-x64",
+            "assetType": "native"
+          },
+          "runtimes/linux-x86/native/libSDL2-2.so": {
+            "rid": "linux-x86",
+            "assetType": "native"
+          },
+          "runtimes/linux-x86/native/libopenal.so": {
+            "rid": "linux-x86",
+            "assetType": "native"
+          },
+          "runtimes/osx/native/libSDL2-2.dylib": {
+            "rid": "osx",
+            "assetType": "native"
+          },
+          "runtimes/osx/native/libopenal.dylib": {
+            "rid": "osx",
+            "assetType": "native"
+          },
+          "runtimes/win-x64/native/libSDL2-2.dll": {
+            "rid": "win-x64",
+            "assetType": "native"
+          },
+          "runtimes/win-x64/native/libopenal.dll": {
+            "rid": "win-x64",
+            "assetType": "native"
+          },
+          "runtimes/win-x86/native/libSDL2-2.dll": {
+            "rid": "win-x86",
+            "assetType": "native"
+          },
+          "runtimes/win-x86/native/libopenal.dll": {
+            "rid": "win-x86",
+            "assetType": "native"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "System.IO/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        }
+      },
+      "System.IO.FileSystem/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        }
+      },
+      "System.IO.FileSystem.Primitives/4.3.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
+      "System.Runtime.Handles/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Text.Encoding/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Threading.Tasks/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      }
+    }
+  },
+  "libraries": {
+    "monoGameCP/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Targets/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Byx2kT0dGIQGuq4VgtXfkcFmLSh3cDf2N4lZN1n8+IM+pc6o3WMUrzhtjLmiEUVJioFXLrNx7GYoNkMEJuuwkg==",
+      "path": "microsoft.netcore.targets/1.1.0",
+      "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
+    },
+    "MonoGame.Content.Builder/3.7.0.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7fUYAAlaryMgD1cC01vvvLpkjvC1TJZYNVeMBiLmRPzXmh6gAROew88Rk6XlyeE4Q1rGRT0OcTfVVVGpopgwew==",
+      "path": "monogame.content.builder/3.7.0.9",
+      "hashPath": "monogame.content.builder.3.7.0.9.nupkg.sha512"
+    },
+    "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-juPb6yv+N362liHMbYQavmlhLzufpGGvNQqcpDGEs4BzRiycBXXjhZjCwpUekx0ozLfQ+kjirnuA3/M2lc4tMQ==",
+      "path": "monogame.framework.desktopgl.core/3.7.0.7",
+      "hashPath": "monogame.framework.desktopgl.core.3.7.0.7.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aTRmXwR5xYu+mWxE8r8W1DWnL02SeV8LwdQMsLwTWP8OZgrCCyTqvOAe5hRb1VNQYXjln7qr0PKpSyO/pcc19Q==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "System.IO/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ho8EKM7sNocbqrcWm2ogNpFHnpbwoIbQf8o3oI6lz7REjc+CUkPlQ5cT+mXak2KKmSyEDv71bHwAH+HCY+MZew==",
+      "path": "system.io/4.3.0",
+      "hashPath": "system.io.4.3.0.nupkg.sha512"
+    },
+    "System.IO.FileSystem/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FCQUnRYgcqsG1zomvjzXNy8U1X4HVo3Zsaqx0spQbja7q57b2JSiXs8xksv7b0XBoJulvU3Fc17rntb9iO1/dQ==",
+      "path": "system.io.filesystem/4.3.0",
+      "hashPath": "system.io.filesystem.4.3.0.nupkg.sha512"
+    },
+    "System.IO.FileSystem.Primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4s02zMNcr6+SPvqOM9yUE9ls71Eb5FSdAeNINBgekmk5GwafhsjEZu48vmD9PpYuU+ZNN88JamuC0fFxcQw8DQ==",
+      "path": "system.io.filesystem.primitives/4.3.0",
+      "hashPath": "system.io.filesystem.primitives.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LqqjqCn6TYyfYBzcpLdeJGvD+15oGl4snauMzBFH9Qt5h4VcIIeKKrIh2r6827Xg4umGEJTIwvv3wHhpdkVQNA==",
+      "path": "system.runtime/4.3.0",
+      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.Handles/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aobrZpTARf3uQB2CenF95BEnSago3EmP6d9r8cn/W6e4tMsBrdeH6P3SqrOvayeHzjwbMdDu7OE3sPBgA7hm+g==",
+      "path": "system.runtime.handles/4.3.0",
+      "hashPath": "system.runtime.handles.4.3.0.nupkg.sha512"
+    },
+    "System.Text.Encoding/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iFeLQhQjQjXbZIirJqOfvlXHRcjvPRYaU3pAANz+7Ga66Iev/o3aQHytR9t+/2PrKFpNf22skEjXsNm6jpvN8w==",
+      "path": "system.text.encoding/4.3.0",
+      "hashPath": "system.text.encoding.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Tasks/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZvJUpJDnL1hF+B67STHMe+7p+ptPou/+soDEVs2M/Ro8baUWqoDGeH4YIIwbKhE34q5/W7rfmir+YImrXV8G/w==",
+      "path": "system.threading.tasks/4.3.0",
+      "hashPath": "system.threading.tasks.4.3.0.nupkg.sha512"
+    }
+  }
+}
