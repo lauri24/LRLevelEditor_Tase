@@ -8,3 +8,4 @@ c:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.dll
 c:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\monoGameCP.pdb
 c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.dll
 c:\Users\Lowry\monoGameCP\obj\Debug\netcoreapp2.0\monoGameCP.pdb
+c:\Users\Lowry\monoGameCP\bin\Debug\netcoreapp2.0\Content\File.xnb

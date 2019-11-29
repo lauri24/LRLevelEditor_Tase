@@ -35,8 +35,11 @@ namespace monoGameCP
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D pixel;
+        SpriteFont verdana36;
         XmlTextWriter textWriter; 
         LevelStore store;
+        Camera2d camera;
+        KeyboardState previousState;
         bool isMenuEnabled;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
       
@@ -45,6 +48,9 @@ namespace monoGameCP
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -53,7 +59,10 @@ namespace monoGameCP
         {
             // TODO: Add your initialization logic here
             store=new LevelStore();
+            camera=new Camera2d();
+            camera.Pos=new Vector2(0.0f,200.0f);
             isMenuEnabled=false;
+            previousState = Keyboard.GetState();
             base.Initialize();
         }
         /* All the game’s logic should go in the Update() method while everything concerning what is showing on the screen should go in the Draw() method. So a game doesn’t really have an implementation for menus and pausing, it’s up to the developer to create something that will take care of that.*/
@@ -66,24 +75,26 @@ namespace monoGameCP
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White }); // so that we can draw whatever color we want on top of it
             // TODO: use this.Content to load your game content here
-           
-            drawGridSystem(100,50);
+             verdana36 = Content.Load<SpriteFont>("File");
+            drawGridSystem(10,50);
         }
 
 
         public void drawGridSystem(int gridSize,int tileSize){
- spriteBatch.Begin();
+         spriteBatch.Begin();
             for (int i = 0; i < gridSize; ++i)
 {
                     for (int j = 0; j < gridSize; ++j)
                     {
-                           var tile=new Rectangle(j*tileSize,i*tileSize,tileSize,tileSize);
+                           Vector2 transformedV=Vector2.Transform(new Vector2(j*tileSize,i*tileSize), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
+                           var tile=new Rectangle((int)transformedV.X,(int)transformedV.Y,tileSize,tileSize);
                            TileObject tile2=new TileObject();
                            tile2.Rectangle=tile;
                            tile2.isGreen=false;
                            barriersList.Add(tile2);
                            DrawBorder(tile,2,Color.Red);
-                      
+                           var positionsLabel="("+tile2.Rectangle.X+":"+tile2.Rectangle.Y+")";
+                                            spriteBatch.DrawString(verdana36,positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White);
                     }
             }
             spriteBatch.End();
@@ -91,18 +102,22 @@ namespace monoGameCP
 
 
           public void updateGridSystem(){
- spriteBatch.Begin();
+ //spriteBatch.Begin();
             foreach(TileObject rect in barriersList){
 
                            
                            if(rect.isGreen){
                                 Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
-
-                                           
                                             spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
+                                           Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X,rect.Rectangle.Y), Matrix.Invert(camera._transform));
+                                              var positionsLabel="("+rect.Rectangle.X+":"+rect.Rectangle.Y+")\n("+worldPos.X+":"+worldPos.Y+")";
+                                            spriteBatch.DrawString(verdana36,positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
                            }else{
                              DrawBorder(rect.Rectangle,2,Color.Red);
+                                               Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X,rect.Rectangle.Y), Matrix.Invert(camera._transform));
+                                              var positionsLabel="("+rect.Rectangle.X+":"+rect.Rectangle.Y+")\n("+worldPos.X+":"+worldPos.Y+")";
+                                            spriteBatch.DrawString(verdana36,positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
                            }
                           
                           
@@ -113,30 +128,38 @@ namespace monoGameCP
                       
                     
             
-            spriteBatch.End();
+           // spriteBatch.End();
         }
-
+        public Vector2 ScreenToWorld(int x, int y)
+{
+            return new Vector2(camera.Pos.X - x,camera.Pos.Y - y);
+        }
         public void checkForMouseClick(){
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     //Write code here
                    var mouseState = Mouse.GetState();
                    var mousePosition = new Point(mouseState.X, mouseState.Y);
+                   Vector2 worldPosition = Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera._transform));
+                   System.Console.WriteLine("Mouse position X:{0} Y:{1}",mouseState.X,mouseState.Y);
+                   System.Console.WriteLine("World position X:{0} Y:{1}",worldPosition.X,worldPosition.Y);
                    //System.Console.WriteLine("Tere {0},{1}",mouseState.X,mouseState.Y);
                    //System.Console.WriteLine("Tere count {0}",barriersList.Count);
                     foreach(TileObject rect in barriersList){
 
                                
-                                 if(rect.Rectangle.Contains(mousePosition)){
-                                        spriteBatch.Begin();
+                                 if(rect.Rectangle.Contains(worldPosition)){
+                                      
+                                       //spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
+                                     //   spriteBatch.Begin();
                                          // System.Console.WriteLine("Hit rect at {0} {1}",mouseState.X,mouseState.Y);
-                                        System.Console.WriteLine("Hit");
+                                         System.Console.WriteLine("Hit");
                                          Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
 
                                            rect.isGreen=true;
                                             spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
-                                            spriteBatch.End();
+                                        //    spriteBatch.End();
                                  }
                     }
                                 
@@ -161,12 +184,24 @@ namespace monoGameCP
             
             // TODO: Add your update logic here
               KeyboardState ks = Keyboard.GetState();
-               
+                if(ks.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(
+                Keys.Left)){
+                    camera.Move(new Vector2(-100.0f,0));
+                }
+                if(ks.IsKeyDown(Keys.Right) & !previousState.IsKeyDown(
+                Keys.Right)){
+                    camera.Move(new Vector2(100.0f,0));
+                }
+                if(ks.IsKeyDown(Keys.Z) & !previousState.IsKeyDown(
+                Keys.Z)){
+                    camera.Zoom=0.5f;
+                }
                 if (ks.IsKeyDown(Keys.LeftControl) && ks.IsKeyDown(Keys.S)) {
                 // Move backward
                    store.storeLevelAsJSON(barriersList,"level1.json");
                 }
-                if(ks.IsKeyDown(Keys.M)){
+                if(ks.IsKeyDown(Keys.M) & !previousState.IsKeyDown(
+                Keys.M)){
                     System.Console.WriteLine("Menu");
                     if(isMenuEnabled){
                         isMenuEnabled=false;
@@ -174,12 +209,13 @@ namespace monoGameCP
                         isMenuEnabled=true;
                     }
                 }
-              
+               previousState = ks;
             base.Update(gameTime);
         }
          private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
             // Draw top line
+            
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
             
             // Draw left line
@@ -203,6 +239,12 @@ namespace monoGameCP
             // TODO: Add your drawing code here
            // drawGridSystem(10,10);
             
+           
+//Vector2 worldPosition = Vector2.Transform(mousePosition, Matrix.Invert(viewMatrix));
+            spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
+            //      spriteBatch.End();
+              //  camera.Zoom = 0.5f;
+            // camera.Move(new Vector2(500.0f,200.0f));
             updateGridSystem();
             checkForMouseClick();
             if(isMenuEnabled){
@@ -212,8 +254,10 @@ namespace monoGameCP
 
                                            
                                             spriteBatch.Draw(texture,new Rectangle(0,0,500,200), Color.Green);
-                                            spriteBatch.End();
+                                           
             }
+            spriteBatch.End();
+            
             base.Draw(gameTime);
         }
     }
