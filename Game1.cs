@@ -6,6 +6,7 @@ using System.Xml;
 using System.Text;
 using Newtonsoft.Json;
 using System.IO;
+using ScreenManager;
 namespace monoGameCP
 {
 
@@ -36,9 +37,12 @@ namespace monoGameCP
         SpriteBatch spriteBatch;
         Texture2D pixel;
         SpriteFont verdana36;
+        SpriteFont mainMenuFont;
         XmlTextWriter textWriter; 
         LevelStore store;
         Camera2d camera;
+        MenuComponent menuComponent;
+
         KeyboardState previousState;
         bool isMenuEnabled;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
@@ -76,7 +80,12 @@ namespace monoGameCP
             pixel.SetData(new[] { Color.White }); // so that we can draw whatever color we want on top of it
             // TODO: use this.Content to load your game content here
              verdana36 = Content.Load<SpriteFont>("File");
+             mainMenuFont=Content.Load<SpriteFont>("MainMenu");
             drawGridSystem(10,50);
+
+            string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
+            menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
+            Components.Add(menuComponent);
         }
 
 
@@ -163,17 +172,7 @@ namespace monoGameCP
                                  }
                     }
                                 
-                        // Rectangle area = someRectangle;
 
-// Check if the mouse position is inside the rectangle
-                      /*  if (area.Contains(mousePosition))
-                        {
-                            backgroundTexture = hoverTexture;
-                        }
-                        else
-                        {
-                            backgroundTexture = defaultTexture;
-                        }*/
                 }
 
         }
@@ -245,20 +244,24 @@ namespace monoGameCP
             //      spriteBatch.End();
               //  camera.Zoom = 0.5f;
             // camera.Move(new Vector2(500.0f,200.0f));
-            updateGridSystem();
-            checkForMouseClick();
+            
             if(isMenuEnabled){
-                spriteBatch.Begin();
-             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                                         texture.SetData<Color>(new Color[] { Color.Gray });
+                menuComponent.setMenuPosition(new Vector2(camera._pos.X-120,camera._pos.Y/2));
+                menuComponent.DrawMenu();
+            // Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+              //                           texture.SetData<Color>(new Color[] { Color.Gray });
 
                                            
-                                            spriteBatch.Draw(texture,new Rectangle(0,0,500,200), Color.Green);
+                //                            spriteBatch.Draw(texture,new Rectangle(0,0,500,200), Color.Green);
                                            
+            }else{
+                updateGridSystem();
+            checkForMouseClick();
             }
-            spriteBatch.End();
+            
             
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
 }
