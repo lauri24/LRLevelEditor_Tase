@@ -7,6 +7,8 @@ using System.Text;
 using Newtonsoft.Json;
 using System.IO;
 using ScreenManager;
+using System.Collections.Generic;
+
 namespace monoGameCP
 {
 
@@ -85,9 +87,17 @@ namespace monoGameCP
 
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
+            menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
+         
+      
+            //evento.Evento1("Hello, i'm another event!");
             Components.Add(menuComponent);
         }
-
+       public void onLevelLoaded(List<TileObject> jsonLevel)
+        {
+            Console.WriteLine("We're inside the event handler.");
+            barriersList=jsonLevel;
+        }
 
         public void drawGridSystem(int gridSize,int tileSize){
          spriteBatch.Begin();
