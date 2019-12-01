@@ -94,6 +94,7 @@ namespace monoGameCP
       
             //evento.Evento1("Hello, i'm another event!");
             Components.Add(menuComponent);
+            Components.Add(textureMenuComponent);
         }
 
         public void onLevelSaved(){
@@ -199,9 +200,10 @@ namespace monoGameCP
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+                KeyboardState ks = Keyboard.GetState();
+          
             // TODO: Add your update logic here
-              KeyboardState ks = Keyboard.GetState();
+                if(!isTextureMenuEnabled){
                 if(ks.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(
                 Keys.Left)){
                     camera.Move(new Vector2(-100.0f,0));
@@ -235,6 +237,17 @@ namespace monoGameCP
                     }else{
                         isMenuEnabled=true;
                     }
+                }
+                }else{
+                     if(ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
+                Keys.T)){
+                    if(isTextureMenuEnabled){
+                        isTextureMenuEnabled=false;
+                    }else{
+                        isTextureMenuEnabled=true;
+                    }
+                  
+                }
                 }
                previousState = ks;
             base.Update(gameTime);
