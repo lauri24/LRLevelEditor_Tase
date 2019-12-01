@@ -47,6 +47,7 @@ namespace monoGameCP
         TextureMenuComponent textureMenuComponent;
         KeyboardState previousState;
         bool isMenuEnabled;
+        Texture2D selectedTexture;
         bool isTextureMenuEnabled;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
       
@@ -91,12 +92,14 @@ namespace monoGameCP
             textureMenuComponent= new TextureMenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
             menuComponent.LevelSavedToJson +=new levelSavedEventHandler(onLevelSaved);
-      
+            textureMenuComponent.textureLoadedToUse +=new loadedTextureToUseHandler(onUseTexture);
             //evento.Evento1("Hello, i'm another event!");
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
         }
-
+         public void onUseTexture(Texture2D texture){
+           selectedTexture=texture;
+        }
         public void onLevelSaved(){
             System.Console.WriteLine("Level Saved");
              store.storeLevelAsJSON(barriersList,menuComponent.pathToLevel);
@@ -134,20 +137,25 @@ namespace monoGameCP
  //spriteBatch.Begin();
             foreach(TileObject rect in barriersList){
 
-                           
+                         
                            if(rect.isGreen){
+                               if(selectedTexture!=null){
+                                           spriteBatch.Draw(selectedTexture, rect.Rectangle, Color.Green);
+                               }else{
                                 Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
                                             spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
                                            Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X,rect.Rectangle.Y), Matrix.Invert(camera._transform));
                                               var positionsLabel="("+rect.Rectangle.X+":"+rect.Rectangle.Y+")\n("+worldPos.X+":"+worldPos.Y+")";
                                             spriteBatch.DrawString(verdana36,positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
+                               }
                            }else{
                              DrawBorder(rect.Rectangle,2,Color.Red);
                                                Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X,rect.Rectangle.Y), Matrix.Invert(camera._transform));
                                               var positionsLabel="("+rect.Rectangle.X+":"+rect.Rectangle.Y+")\n("+worldPos.X+":"+worldPos.Y+")";
                                             spriteBatch.DrawString(verdana36,positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
                            }
+                           
                           
                           
                          
