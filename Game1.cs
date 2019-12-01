@@ -88,15 +88,22 @@ namespace monoGameCP
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
-         
+            menuComponent.LevelSavedToJson +=new levelSavedEventHandler(onLevelSaved);
       
             //evento.Evento1("Hello, i'm another event!");
             Components.Add(menuComponent);
         }
+
+        public void onLevelSaved(){
+            System.Console.WriteLine("Level Saved");
+             store.storeLevelAsJSON(barriersList,menuComponent.pathToLevel);
+             isMenuEnabled=false;
+        }
        public void onLevelLoaded(List<TileObject> jsonLevel)
         {
-            Console.WriteLine("We're inside the event handler.");
+            Console.WriteLine("Level loaded");
             barriersList=jsonLevel;
+            isMenuEnabled=false;
         }
 
         public void drawGridSystem(int gridSize,int tileSize){
@@ -207,7 +214,7 @@ namespace monoGameCP
                 }
                 if (ks.IsKeyDown(Keys.LeftControl) && ks.IsKeyDown(Keys.S)) {
                 // Move backward
-                   store.storeLevelAsJSON(barriersList,"level1.json");
+                   store.storeLevelAsJSON(barriersList,menuComponent.pathToLevel);
                 }
                 if(ks.IsKeyDown(Keys.M) & !previousState.IsKeyDown(
                 Keys.M)){
@@ -266,7 +273,7 @@ namespace monoGameCP
                                            
             }else{
                 updateGridSystem();
-            checkForMouseClick();
+                checkForMouseClick();
             }
             
             

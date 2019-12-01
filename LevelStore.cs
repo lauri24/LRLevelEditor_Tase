@@ -11,11 +11,10 @@ public class LevelStore{
 
     }
 
-    public void storeLevelAsJSON(System.Collections.Generic.List<TileObject> listIn,string filename){
+    public void storeLevelAsJSON(System.Collections.Generic.List<TileObject> listIn,string fullPath){
 
           var json = JsonConvert.SerializeObject(listIn);
-          var path=@"C:\\Users\\Lowry\\monoGameCP\\"+filename;
-          File.WriteAllText(path,json);
+          File.WriteAllText(fullPath,json);
     }
 
      /* public void writeXMLElement(){
