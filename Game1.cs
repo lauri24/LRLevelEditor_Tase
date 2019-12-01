@@ -44,9 +44,10 @@ namespace monoGameCP
         LevelStore store;
         Camera2d camera;
         MenuComponent menuComponent;
-
+        TextureMenuComponent textureMenuComponent;
         KeyboardState previousState;
         bool isMenuEnabled;
+        bool isTextureMenuEnabled;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
       
         //private Dictionary<int,Rectangle> tilesDictionary = new Dictionary<int,Rectangle>();
@@ -87,6 +88,7 @@ namespace monoGameCP
 
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
+            textureMenuComponent= new TextureMenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
             menuComponent.LevelSavedToJson +=new levelSavedEventHandler(onLevelSaved);
       
@@ -212,6 +214,15 @@ namespace monoGameCP
                 Keys.Z)){
                     camera.Zoom=0.5f;
                 }
+                if(ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
+                Keys.T)){
+                    if(isTextureMenuEnabled){
+                        isTextureMenuEnabled=false;
+                    }else{
+                        isTextureMenuEnabled=true;
+                    }
+                  
+                }
                 if (ks.IsKeyDown(Keys.LeftControl) && ks.IsKeyDown(Keys.S)) {
                 // Move backward
                    store.storeLevelAsJSON(barriersList,menuComponent.pathToLevel);
@@ -261,8 +272,10 @@ namespace monoGameCP
             //      spriteBatch.End();
               //  camera.Zoom = 0.5f;
             // camera.Move(new Vector2(500.0f,200.0f));
-            
-            if(isMenuEnabled){
+            if(isTextureMenuEnabled){
+                textureMenuComponent.setMenuPosition(new Vector2(camera._pos.X-120,camera._pos.Y/2));
+                textureMenuComponent.DrawMenu();
+            }else if(isMenuEnabled){
                 menuComponent.setMenuPosition(new Vector2(camera._pos.X-120,camera._pos.Y/2));
                 menuComponent.DrawMenu();
             // Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
