@@ -64,11 +64,15 @@ namespace ScreenManager
 
             texturePaths=Directory.EnumerateFiles(pathToContent, "*.*",SearchOption.AllDirectories)
             .Where(s => s.EndsWith(".png") || s.EndsWith(".PNG"));
+			int count=20;
             foreach (string dir in texturePaths) 
             {
+				if(count>0){
                  Texture2D text=loadNotBuiltTextureFile(dir);
                  textures.Add(dir,text);
                  System.Console.WriteLine(dir);
+				 count--;
+				}
             }     
               
               
@@ -223,7 +227,7 @@ namespace ScreenManager
                    currentTileX=(int)location.X;
                    currentTileY=currentTileY+50;
                }
-               if(texturePaths.ElementAt(selectedIndex)==entry.Key){
+               if(textures.ElementAt(selectedIndex).Key==entry.Key){
                     DrawBorder(new Rectangle(currentTileX,currentTileY,50,50),2,Color.Red);
                }
 
