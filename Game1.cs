@@ -19,8 +19,8 @@ namespace monoGameCP
         public string label_text;
         public string texturePath;
         public bool isCollidable;
-        
-
+        public bool isTextureAdded;
+        public Texture2D texture;
         public Rectangle Rectangle { get => rectangle; set => rectangle = value; }
 
         public TileObject()
@@ -140,7 +140,10 @@ namespace monoGameCP
                          
                            if(rect.isGreen){
                                if(selectedTexture!=null){
-                                           spriteBatch.Draw(selectedTexture, rect.Rectangle, Color.Green);
+                                   if(rect.texture!=null){
+                                        spriteBatch.Draw(rect.texture, rect.Rectangle, Color.Green);
+                                   }
+                                          
                                }else{
                                 Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
@@ -193,7 +196,7 @@ namespace monoGameCP
                                          System.Console.WriteLine("Hit");
                                          Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
-
+                                         rect.texture=selectedTexture;
                                            rect.isGreen=true;
                                             spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
                                         //    spriteBatch.End();
