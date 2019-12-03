@@ -123,6 +123,15 @@ namespace ScreenManager
                     {
                         string json = r.ReadToEnd();
                         List<TileObject> levelObject = JsonConvert.DeserializeObject<List<TileObject>>(json);
+						foreach(TileObject tile in levelObject){
+							if(tile.texturePath!=null){
+								 FileStream fileStream = new FileStream(tile.texturePath, FileMode.Open);
+          						 tile.texture = Texture2D.FromStream(GraphicsDevice, fileStream);
+          						 fileStream.Dispose(); 
+							}
+
+
+						}
                         LevelLoadedFromJson(levelObject);
                     }
                     

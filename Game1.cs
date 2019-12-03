@@ -20,6 +20,7 @@ namespace monoGameCP
         public string texturePath;
         public bool isCollidable;
         public bool isTextureAdded;
+         [JsonIgnore]
         public Texture2D texture;
         public Rectangle Rectangle { get => rectangle; set => rectangle = value; }
 
@@ -41,6 +42,7 @@ namespace monoGameCP
         SpriteFont verdana36;
         SpriteFont mainMenuFont;
         XmlTextWriter textWriter; 
+        string selectedTexturePath;
         LevelStore store;
         Camera2d camera;
         MenuComponent menuComponent;
@@ -97,8 +99,9 @@ namespace monoGameCP
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
         }
-         public void onUseTexture(Texture2D texture){
+         public void onUseTexture(Texture2D texture,string pathToTexture){
            selectedTexture=texture;
+           selectedTexturePath=pathToTexture;
         }
         public void onLevelSaved(){
             System.Console.WriteLine("Level Saved");
@@ -197,6 +200,7 @@ namespace monoGameCP
                                          Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                                          texture.SetData<Color>(new Color[] { Color.White });
                                          rect.texture=selectedTexture;
+                                         rect.texturePath=selectedTexturePath;
                                            rect.isGreen=true;
                                             spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
                                         //    spriteBatch.End();

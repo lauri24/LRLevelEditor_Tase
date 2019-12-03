@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace ScreenManager
 {
-    public delegate void loadedTextureToUseHandler(Texture2D texture);
+    public delegate void loadedTextureToUseHandler(Texture2D texture,string pathToTexture);
 
     public class TextureMenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
 	{
@@ -59,7 +59,7 @@ namespace ScreenManager
 			this.spriteFont = spriteFont;
 			this.menuItems = menuItems;
 			MeasureMenu();
-           
+			
             pathToContent=Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\Content\\Texture";
 
             texturePaths=Directory.EnumerateFiles(pathToContent, "*.*",SearchOption.AllDirectories)
@@ -143,21 +143,21 @@ namespace ScreenManager
 			if (CheckKey(Keys.Right))
 			{
 				selectedIndex++;
-				if (selectedIndex ==  texturePaths.Count())
+				if (selectedIndex ==  textures.Count())
 					selectedIndex = 0;
 			}
 			if (CheckKey(Keys.Left))
 			{
 				selectedIndex--;
 				if (selectedIndex < 0)
-					selectedIndex = texturePaths.Count() - 1;
+					selectedIndex = textures.Count() - 1;
 			}
             if(CheckKey(Keys.Q)){
                 System.Console.WriteLine("ESCAPE");
             }
 
             if(CheckKey(Keys.Enter)){
-               textureLoadedToUse(textures.ElementAt(selectedIndex).Value);
+               textureLoadedToUse(textures.ElementAt(selectedIndex).Value,textures.ElementAt(selectedIndex).Key);
                  
             }
 
@@ -221,7 +221,7 @@ namespace ScreenManager
             foreach (KeyValuePair<string, Texture2D> entry in textures) 
             {
                
-               spriteBatch.Draw(entry.Value,new Rectangle(currentTileX,currentTileY,50,50), Color.LightSlateGray);
+               spriteBatch.Draw(entry.Value,new Rectangle(currentTileX,currentTileY,50,50),Color.White);
                currentTileX=currentTileX+50;
                if(currentTileX>location.X+250){
                    currentTileX=(int)location.X;
