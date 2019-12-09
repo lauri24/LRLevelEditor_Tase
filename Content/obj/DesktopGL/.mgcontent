@@ -5,52 +5,10 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/Lowry/monoGameCP/Content/File.spritefont</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0505.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0506.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0507.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0575.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0578.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0589.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0592.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0639.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP0673.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1152.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1208.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1719.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1720.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1723.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1724.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP1735.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP2000.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP2104.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP2186.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP2187.JPG</File>
-    <File>C:/Users/Lowry/monoGameCP/Content/IMGP2583.JPG</File>
     <File>C:/Users/Lowry/monoGameCP/Content/MainMenu.spritefont</File>
     <File>C:/Users/Lowry/monoGameCP/Content/tex_Water.jpg</File>
   </SourceFiles>
   <DestFiles>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

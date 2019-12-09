@@ -251,6 +251,15 @@
           }
         }
       },
+      "Myra/0.9.7.185": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Myra.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Myra.dll": {}
+        }
+      },
       "NETStandard.Library/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -738,6 +747,18 @@
         "runtimes/win-x64/native/libopenal.dll",
         "runtimes/win-x86/native/libSDL2-2.dll",
         "runtimes/win-x86/native/libopenal.dll"
+      ]
+    },
+    "Myra/0.9.7.185": {
+      "sha512": "6Yg1hXktukEt7gcOl/TgkfHl3KSNqMfguiIOJ56LgrX5VaWx6KSzpbhg64ZU/4gLmWM6PXh+xRa8CxlXUortLg==",
+      "type": "package",
+      "path": "myra/0.9.7.185",
+      "files": [
+        ".signature.p7s",
+        "lib/net45/Myra.dll",
+        "lib/netstandard2.0/Myra.dll",
+        "myra.0.9.7.185.nupkg.sha512",
+        "myra.nuspec"
       ]
     },
     "NETStandard.Library/2.0.0": {
@@ -1314,6 +1335,7 @@
       "Microsoft.NETCore.App >= 2.0.0",
       "MonoGame.Content.Builder >= 3.7.0.9",
       "MonoGame.Framework.DesktopGL.Core >= 3.7.0.7",
+      "Myra >= 0.9.7.185",
       "Newtonsoft.Json >= 12.0.3",
       "System.IO.FileSystem >= 4.3.0"
     ]
@@ -1375,6 +1397,10 @@
           "MonoGame.Framework.DesktopGL.Core": {
             "target": "Package",
             "version": "[3.7.0.7, )"
+          },
+          "Myra": {
+            "target": "Package",
+            "version": "[0.9.7.185, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",

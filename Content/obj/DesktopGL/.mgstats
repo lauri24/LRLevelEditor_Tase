@@ -1,22 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Lowry/monoGameCP/Content/IMGP0505.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0505.xnb","TextureProcessor","Texture2DContent",2054000,22044757,1,028898
-"C:/Users/Lowry/monoGameCP/Content/IMGP0506.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0506.xnb","TextureProcessor","Texture2DContent",2668619,28311637,1,097065
-"C:/Users/Lowry/monoGameCP/Content/IMGP0507.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0507.xnb","TextureProcessor","Texture2DContent",2746547,28311637,1,070137
-"C:/Users/Lowry/monoGameCP/Content/IMGP0575.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0575.xnb","TextureProcessor","Texture2DContent",1157302,12552277,0,4797169
-"C:/Users/Lowry/monoGameCP/Content/IMGP0578.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0578.xnb","TextureProcessor","Texture2DContent",1799204,18649345,0,707313
-"C:/Users/Lowry/monoGameCP/Content/IMGP0589.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0589.xnb","TextureProcessor","Texture2DContent",1460273,17516605,0,6376674
-"C:/Users/Lowry/monoGameCP/Content/IMGP0592.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0592.xnb","TextureProcessor","Texture2DContent",1833087,17080981,0,6513506
-"C:/Users/Lowry/monoGameCP/Content/IMGP0639.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0639.xnb","TextureProcessor","Texture2DContent",1506201,15505645,0,6486945
-"C:/Users/Lowry/monoGameCP/Content/IMGP0673.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP0673.xnb","TextureProcessor","Texture2DContent",1373970,13729045,0,4946769
-"C:/Users/Lowry/monoGameCP/Content/IMGP1152.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1152.xnb","TextureProcessor","Texture2DContent",1189787,13248373,0,492684
-"C:/Users/Lowry/monoGameCP/Content/IMGP1208.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1208.xnb","TextureProcessor","Texture2DContent",1715582,19918165,0,7190638
-"C:/Users/Lowry/monoGameCP/Content/IMGP1719.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1719.xnb","TextureProcessor","Texture2DContent",1949326,18295249,0,8277861
-"C:/Users/Lowry/monoGameCP/Content/IMGP1720.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1720.xnb","TextureProcessor","Texture2DContent",2073930,22591381,0,9115644
-"C:/Users/Lowry/monoGameCP/Content/IMGP1723.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1723.xnb","TextureProcessor","Texture2DContent",2698258,28311637,1,137956
-"C:/Users/Lowry/monoGameCP/Content/IMGP1724.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1724.xnb","TextureProcessor","Texture2DContent",2109969,22988965,1,018277
-"C:/Users/Lowry/monoGameCP/Content/IMGP1735.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP1735.xnb","TextureProcessor","Texture2DContent",2327742,26460085,1,083103
-"C:/Users/Lowry/monoGameCP/Content/IMGP2000.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP2000.xnb","TextureProcessor","Texture2DContent",1630264,18591205,0,6849319
-"C:/Users/Lowry/monoGameCP/Content/IMGP2104.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP2104.xnb","TextureProcessor","Texture2DContent",2879441,24809557,1,166453
-"C:/Users/Lowry/monoGameCP/Content/IMGP2186.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP2186.xnb","TextureProcessor","Texture2DContent",1816325,19685461,0,7809661
-"C:/Users/Lowry/monoGameCP/Content/IMGP2187.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP2187.xnb","TextureProcessor","Texture2DContent",1325930,14292805,0,6831709
-"C:/Users/Lowry/monoGameCP/Content/IMGP2583.JPG","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/IMGP2583.xnb","TextureProcessor","Texture2DContent",2404506,27168853,1,129985
+"C:/Users/Lowry/monoGameCP/Content/File.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/File.xnb","FontDescriptionProcessor","SpriteFontContent",2007,13329,0,3829762
+"C:/Users/Lowry/monoGameCP/Content/MainMenu.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/MainMenu.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37905,0,1097066
+"C:/Users/Lowry/monoGameCP/Content/tex_Water.jpg","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/tex_Water.xnb","TextureProcessor","Texture2DContent",232475,4194389,0,23537

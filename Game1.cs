@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using System.IO;
 using ScreenManager;
 using System.Collections.Generic;
+using Myra;
+using Myra.Graphics2D.UI;
 
 namespace monoGameCP
 {
@@ -36,6 +38,7 @@ namespace monoGameCP
 
     public class Game1 : Game
     {
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D pixel;
@@ -51,6 +54,8 @@ namespace monoGameCP
         bool isMenuEnabled;
         Texture2D selectedTexture;
         bool isTextureMenuEnabled;
+        
+        
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
       
         //private Dictionary<int,Rectangle> tilesDictionary = new Dictionary<int,Rectangle>();
@@ -58,13 +63,15 @@ namespace monoGameCP
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
+            changeWindowSize(800,600);
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
+        private void changeWindowSize(int x,int y){
+            graphics.PreferredBackBufferHeight=y;
+            graphics.PreferredBackBufferWidth=x;
+        }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -98,6 +105,11 @@ namespace monoGameCP
             //evento.Evento1("Hello, i'm another event!");
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
+
+            MyraEnvironment.Game = this;
+
+             
+             Desktop.TouchDown += (s, a) => ShowContextMenu();
         }
          public void onUseTexture(Texture2D texture,string pathToTexture){
            selectedTexture=texture;
@@ -266,6 +278,7 @@ namespace monoGameCP
                 }
                previousState = ks;
             base.Update(gameTime);
+            
         }
          private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
@@ -319,7 +332,67 @@ namespace monoGameCP
             
             
             base.Draw(gameTime);
+           
             spriteBatch.End();
+            Desktop.Render();
+            
         }
+    
+     private void ShowContextMenu()
+    {
+    if (Desktop.ContextMenu != null)
+    {
+        // Dont show if it's already shown
+        return;
+    }
+
+    var container = new VerticalStackPanel
+    {
+        Spacing = 4
+    };
+
+    var titleContainer = new Panel
+    {
+        Background = DefaultAssets.UISpritesheet["button"],
+        Border = DefaultAssets.UISpritesheet["border"]
+    };
+
+    var titleLabel = new Label
+    {
+        Text = "Choose Option",
+        HorizontalAlignment = HorizontalAlignment.Center
+    };
+
+    titleContainer.Widgets.Add(titleLabel);
+    container.Widgets.Add(titleContainer);
+
+    var menuItem1 = new MenuItem();
+    menuItem1.Text = "Start New Game";
+    menuItem1.Selected += (s, a) =>
+    {
+        // "Start New Game" selected
+    };
+
+    var menuItem2 = new MenuItem();
+    menuItem2.Text = "Options";
+
+    var menuItem3 = new MenuItem();
+    menuItem3.Text = "Quit";
+
+    var verticalMenu = new VerticalMenu();
+
+    verticalMenu.Items.Add(menuItem1);
+    verticalMenu.Items.Add(menuItem2);
+    verticalMenu.Items.Add(menuItem3);
+
+    container.Widgets.Add(verticalMenu);
+
+    var mouseState = Mouse.GetState();
+    var mousePosition = new Point(mouseState.X, mouseState.Y);
+    //Vector2 worldPosition = Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera._transform));
+    Vector2 worldPosition=Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
+    Desktop.ShowContextMenu(container, Desktop.TouchPosition);
+}
+
     }
 }
