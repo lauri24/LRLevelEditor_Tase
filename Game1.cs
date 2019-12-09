@@ -189,6 +189,26 @@ namespace monoGameCP
 {
             return new Vector2(camera.Pos.X - x,camera.Pos.Y - y);
         }
+
+        bool  isTileClicked(int mouseX,int mouseY){
+            bool didHitTile=false;
+            Vector2 worldPosition = Vector2.Transform(new Vector2(mouseX,mouseY), Matrix.Invert(camera._transform));
+            foreach(TileObject rect in barriersList){
+
+                               
+                                 if(rect.Rectangle.Contains(worldPosition)){
+                                      
+                                       //spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
+                                     //   spriteBatch.Begin();
+                                         // System.Console.WriteLine("Hit rect at {0} {1}",mouseState.X,mouseState.Y);
+                                      didHitTile=true;
+                                        //    spriteBatch.End();
+                                 }
+                    }
+                                
+                return didHitTile;
+
+        }
         public void checkForMouseClick(){
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
@@ -380,11 +400,13 @@ namespace monoGameCP
     menuItem3.Text = "Quit";
 
     var verticalMenu = new VerticalMenu();
-
-    verticalMenu.Items.Add(menuItem1);
-    verticalMenu.Items.Add(menuItem2);
-    verticalMenu.Items.Add(menuItem3);
-
+    if(isTileClicked(Desktop.TouchPosition.X,Desktop.TouchPosition.Y)){
+        verticalMenu.Items.Add(menuItem1);
+        verticalMenu.Items.Add(menuItem2);
+        verticalMenu.Items.Add(menuItem3);
+    }else{
+        verticalMenu.Items.Add(menuItem3);
+    }
     container.Widgets.Add(verticalMenu);
 
     var mouseState = Mouse.GetState();
