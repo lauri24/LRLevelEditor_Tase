@@ -1,4 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Lowry/monoGameCP/Content/File.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/File.xnb","FontDescriptionProcessor","SpriteFontContent",2007,13329,0,3829762
-"C:/Users/Lowry/monoGameCP/Content/MainMenu.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/MainMenu.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37905,0,1097066
-"C:/Users/Lowry/monoGameCP/Content/tex_Water.jpg","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/tex_Water.xnb","TextureProcessor","Texture2DContent",232475,4194389,0,23537
+"C:/Users/Lowry/monoGameCP/Content/File.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/File.xnb","FontDescriptionProcessor","SpriteFontContent",2007,13329,0,68905
+"C:/Users/Lowry/monoGameCP/Content/MainMenu.spritefont","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/MainMenu.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37905,0,0488689
+"C:/Users/Lowry/monoGameCP/Content/tex_Water.jpg","C:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/tex_Water.xnb","TextureProcessor","Texture2DContent",232475,4194389,0,2249354

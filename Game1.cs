@@ -108,8 +108,9 @@ namespace monoGameCP
 
             MyraEnvironment.Game = this;
 
-             
-             Desktop.TouchDown += (s, a) => ShowContextMenu();
+             ShowGridResizingMenu();
+             Desktop.TouchDoubleClick +=(s,a)=>ShowContextMenu();
+            // Desktop.TouchDown += (s, a) => ShowContextMenu();
         }
          public void onUseTexture(Texture2D texture,string pathToTexture){
            selectedTexture=texture;
@@ -358,6 +359,86 @@ namespace monoGameCP
             
         }
     
+
+
+
+    private void ShowGridResizingMenu(){
+
+        var grid = new Grid
+        {
+        RowSpacing = 8,
+        ColumnSpacing = 8
+        };
+
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+        var helloWorld = new Label
+        {
+        Id = "label",
+        Text = "Hello, World!"
+        };
+        grid.Widgets.Add(helloWorld);
+
+        // ComboBox
+        var combo = new ComboBox
+        {
+        GridColumn = 1,
+        GridRow = 0
+        };
+        
+        combo.Items.Add(new ListItem("Red", Color.Red));
+        combo.Items.Add(new ListItem("Green", Color.Green));
+        combo.Items.Add(new ListItem("Blue", Color.Blue));
+        grid.Widgets.Add(combo);
+
+        // Button
+        var button = new TextButton
+        {
+        GridColumn = 0,
+        GridRow = 1,
+        Text = "Show"
+        };
+
+        button.Click += (s, a) =>
+        {
+        var messageBox = Dialog.CreateMessageBox("Message", "Some message!");
+        var postition=new Vector2(camera._pos.X-120,camera._pos.Y/2);
+         messageBox.ShowModal(new Point((int)postition.X,(int)postition.Y));
+        };
+
+        grid.Widgets.Add(button);
+
+        // Spin button
+        var spinButton = new SpinButton
+        {
+        GridColumn = 1,
+        GridRow = 1,
+        Width = 100,
+        Nullable = true
+        };
+        var spinButton2 = new SpinButton
+        {
+        GridColumn = 1,
+        GridRow = 2,
+        Width = 100,
+        Nullable = true
+        };
+
+        spinButton.ValueChanged+=(s,a)=>{
+           var width=spinButton.Value;
+        };
+
+        grid.Widgets.Add(spinButton2);
+        grid.Widgets.Add(spinButton);
+
+        // Add it to the desktop
+        Desktop.Widgets.Add(grid);
+
+    }
+
      private void ShowContextMenu()
     {
     if (Desktop.ContextMenu != null)
@@ -387,12 +468,15 @@ namespace monoGameCP
     container.Widgets.Add(titleContainer);
 
     var menuItem1 = new MenuItem();
-    menuItem1.Text = "Start New Game";
+    menuItem1.Text = "Change tile";
     menuItem1.Selected += (s, a) =>
     {
         // "Start New Game" selected
-    };
+      
 
+        
+    };
+    
     var menuItem2 = new MenuItem();
     menuItem2.Text = "Options";
 
@@ -415,6 +499,7 @@ namespace monoGameCP
     Vector2 worldPosition=Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
     Desktop.ShowContextMenu(container, Desktop.TouchPosition);
 }
+
 
     }
 }
