@@ -94,7 +94,7 @@ namespace monoGameCP
             // TODO: use this.Content to load your game content here
              verdana36 = Content.Load<SpriteFont>("File");
              mainMenuFont=Content.Load<SpriteFont>("MainMenu");
-            drawGridSystem(10,50);
+            drawGridSystem(10,10,50);
 
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
@@ -128,11 +128,11 @@ namespace monoGameCP
             isMenuEnabled=false;
         }
 
-        public void drawGridSystem(int gridSize,int tileSize){
+        public void drawGridSystem(int gridSizeX,int gridSizeY,int tileSize){
          spriteBatch.Begin();
-            for (int i = 0; i < gridSize; ++i)
+            for (int i = 0; i < gridSizeX; ++i)
 {
-                    for (int j = 0; j < gridSize; ++j)
+                    for (int j = 0; j < gridSizeY; ++j)
                     {
                            Vector2 transformedV=Vector2.Transform(new Vector2(j*tileSize,i*tileSize), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
                            var tile=new Rectangle((int)transformedV.X,(int)transformedV.Y,tileSize,tileSize);
@@ -381,11 +381,18 @@ namespace monoGameCP
         Text = "Hello, World!"
         };
         grid.Widgets.Add(helloWorld);
-
+         var helloWorld2 = new Label
+        {
+        Id = "label2",
+        Text = "Hello, World!",
+        GridRow= 0,
+        GridColumn=1
+        };
+        grid.Widgets.Add(helloWorld2);
         // ComboBox
         var combo = new ComboBox
         {
-        GridColumn = 1,
+        GridColumn = 2,
         GridRow = 0
         };
         
@@ -394,32 +401,21 @@ namespace monoGameCP
         combo.Items.Add(new ListItem("Blue", Color.Blue));
         grid.Widgets.Add(combo);
 
-        // Button
-        var button = new TextButton
-        {
-        GridColumn = 0,
-        GridRow = 1,
-        Text = "Show"
-        };
-
-        button.Click += (s, a) =>
-        {
-        var messageBox = Dialog.CreateMessageBox("Message", "Some message!");
-        var postition=new Vector2(camera._pos.X-120,camera._pos.Y/2);
-         messageBox.ShowModal(new Point((int)postition.X,(int)postition.Y));
-        };
-
-        grid.Widgets.Add(button);
-
-        // Spin button
         var spinButton = new SpinButton
+        {
+        GridColumn = 1,
+        GridRow = 0,
+        Width = 100,
+        Nullable = true
+        };
+        var spinButton2 = new SpinButton
         {
         GridColumn = 1,
         GridRow = 1,
         Width = 100,
         Nullable = true
         };
-        var spinButton2 = new SpinButton
+         var spinButton3 = new SpinButton
         {
         GridColumn = 1,
         GridRow = 2,
@@ -427,12 +423,33 @@ namespace monoGameCP
         Nullable = true
         };
 
-        spinButton.ValueChanged+=(s,a)=>{
-           var width=spinButton.Value;
-        };
-
+        grid.Widgets.Add(spinButton3);
         grid.Widgets.Add(spinButton2);
         grid.Widgets.Add(spinButton);
+
+        // Button
+        var button = new TextButton
+        {
+        GridColumn = 0,
+        GridRow = 3,
+        Text = "Change Grid Size"
+        };
+
+        button.Click += (s, a) =>
+        {
+            var width=spinButton.Value;
+            var height=spinButton2.Value;
+            var tileSize=spinButton3.Value;
+            drawGridSystem((int)width,(int)height,(int)tileSize);
+        /*var messageBox = Dialog.CreateMessageBox("Message", "Some message!");
+        var postition=new Vector2(camera._pos.X-120,camera._pos.Y/2);
+         messageBox.ShowModal(new Point((int)postition.X,(int)postition.Y));*/
+        };
+
+        grid.Widgets.Add(button);
+
+        // Spin button
+       
 
         // Add it to the desktop
         Desktop.Widgets.Add(grid);
