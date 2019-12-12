@@ -10,6 +10,8 @@ using ScreenManager;
 using System.Collections.Generic;
 using Myra;
 using Myra.Graphics2D.UI;
+using System.Linq;
+using Myra.Graphics2D.TextureAtlases;
 
 namespace monoGameCP
 {
@@ -50,6 +52,7 @@ namespace monoGameCP
         Camera2d camera;
         MenuComponent menuComponent;
         TextureMenuComponent textureMenuComponent;
+        MapMenuComponent mapMenuComponent; 
         KeyboardState previousState;
         bool isMenuEnabled;
         Texture2D selectedTexture;
@@ -85,7 +88,7 @@ namespace monoGameCP
         /* All the game’s logic should go in the Update() method while everything concerning what is showing on the screen should go in the Draw() method. So a game doesn’t really have an implementation for menus and pausing, it’s up to the developer to create something that will take care of that.*/
         //http://www.spikie.be/building-a-main-menu-and-loading-screens-in-xna.html
         //https://www.gamedev.net/forums/topic/604607-menus-in-xna/
-   
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -97,20 +100,32 @@ namespace monoGameCP
             drawGridSystem(10,10,50);
 
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
+            mapMenuComponent=new MapMenuComponent(this);
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             textureMenuComponent= new TextureMenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
             menuComponent.LevelSavedToJson +=new levelSavedEventHandler(onLevelSaved);
             textureMenuComponent.textureLoadedToUse +=new loadedTextureToUseHandler(onUseTexture);
-            //evento.Evento1("Hello, i'm another event!");
+            mapMenuComponent.changedGridMapToUse+=new gridMapDimensionsChangeHandler(onGridMapDimensionChange);
+           
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
-
+            Components.Add(mapMenuComponent);
             MyraEnvironment.Game = this;
 
-             ShowGridResizingMenu();
-             Desktop.TouchDoubleClick +=(s,a)=>ShowContextMenu();
+            
+             Desktop.TouchDown +=(s,a)=>{
+				if (Desktop.DownKeys.Contains(Keys.LeftControl) || Desktop.DownKeys.Contains(Keys.RightControl))
+				{
+					ShowContextMenu();
+					
+				}
+			};
             // Desktop.TouchDown += (s, a) => ShowContextMenu();
+        }
+
+        public void onGridMapDimensionChange(int width,int height,int tileSize){
+          drawGridSystem(width,height,tileSize);
         }
          public void onUseTexture(Texture2D texture,string pathToTexture){
            selectedTexture=texture;
@@ -359,103 +374,6 @@ namespace monoGameCP
             
         }
     
-
-
-
-    private void ShowGridResizingMenu(){
-
-        var grid = new Grid
-        {
-        RowSpacing = 8,
-        ColumnSpacing = 8
-        };
-
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var helloWorld = new Label
-        {
-        Id = "label",
-        Text = "Hello, World!"
-        };
-        grid.Widgets.Add(helloWorld);
-         var helloWorld2 = new Label
-        {
-        Id = "label2",
-        Text = "Hello, World!",
-        GridRow= 0,
-        GridColumn=1
-        };
-        grid.Widgets.Add(helloWorld2);
-        // ComboBox
-        var combo = new ComboBox
-        {
-        GridColumn = 2,
-        GridRow = 0
-        };
-        
-        combo.Items.Add(new ListItem("Red", Color.Red));
-        combo.Items.Add(new ListItem("Green", Color.Green));
-        combo.Items.Add(new ListItem("Blue", Color.Blue));
-        grid.Widgets.Add(combo);
-
-        var spinButton = new SpinButton
-        {
-        GridColumn = 1,
-        GridRow = 0,
-        Width = 100,
-        Nullable = true
-        };
-        var spinButton2 = new SpinButton
-        {
-        GridColumn = 1,
-        GridRow = 1,
-        Width = 100,
-        Nullable = true
-        };
-         var spinButton3 = new SpinButton
-        {
-        GridColumn = 1,
-        GridRow = 2,
-        Width = 100,
-        Nullable = true
-        };
-
-        grid.Widgets.Add(spinButton3);
-        grid.Widgets.Add(spinButton2);
-        grid.Widgets.Add(spinButton);
-
-        // Button
-        var button = new TextButton
-        {
-        GridColumn = 0,
-        GridRow = 3,
-        Text = "Change Grid Size"
-        };
-
-        button.Click += (s, a) =>
-        {
-            var width=spinButton.Value;
-            var height=spinButton2.Value;
-            var tileSize=spinButton3.Value;
-            drawGridSystem((int)width,(int)height,(int)tileSize);
-        /*var messageBox = Dialog.CreateMessageBox("Message", "Some message!");
-        var postition=new Vector2(camera._pos.X-120,camera._pos.Y/2);
-         messageBox.ShowModal(new Point((int)postition.X,(int)postition.Y));*/
-        };
-
-        grid.Widgets.Add(button);
-
-        // Spin button
-       
-
-        // Add it to the desktop
-        Desktop.Widgets.Add(grid);
-
-    }
-
      private void ShowContextMenu()
     {
     if (Desktop.ContextMenu != null)
@@ -485,11 +403,11 @@ namespace monoGameCP
     container.Widgets.Add(titleContainer);
 
     var menuItem1 = new MenuItem();
-    menuItem1.Text = "Change tile";
+    menuItem1.Text = "Resize grid";
     menuItem1.Selected += (s, a) =>
     {
         // "Start New Game" selected
-      
+      mapMenuComponent.ShowGridResizingMenu();
 
         
     };
