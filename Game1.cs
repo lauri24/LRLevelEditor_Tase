@@ -107,17 +107,23 @@ namespace monoGameCP
             menuComponent.LevelSavedToJson +=new levelSavedEventHandler(onLevelSaved);
             textureMenuComponent.textureLoadedToUse +=new loadedTextureToUseHandler(onUseTexture);
             mapMenuComponent.changedGridMapToUse+=new gridMapDimensionsChangeHandler(onGridMapDimensionChange);
-           
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
             Components.Add(mapMenuComponent);
             MyraEnvironment.Game = this;
 
-            
+             BuildUITopBar();
              Desktop.TouchDown +=(s,a)=>{
 				if (Desktop.DownKeys.Contains(Keys.LeftControl) || Desktop.DownKeys.Contains(Keys.RightControl))
 				{
 					ShowContextMenu();
+					
+				}
+                if (Desktop.DownKeys.Contains(Keys.Escape) )
+				{
+					if(mapMenuComponent.IsGridResizeMenuEnabled()){
+                       mapMenuComponent.RemoveGridResizingMenu();
+                    }
 					
 				}
 			};
@@ -261,8 +267,15 @@ namespace monoGameCP
         }
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)){
+                 if(mapMenuComponent.IsGridResizeMenuEnabled()){
+                    mapMenuComponent.RemoveGridResizingMenu();
+                 }else{
+                       // Exit();
+                 }
+                 
+            }
+               
                 KeyboardState ks = Keyboard.GetState();
           
             // TODO: Add your update logic here
@@ -376,65 +389,114 @@ namespace monoGameCP
     
      private void ShowContextMenu()
     {
-    if (Desktop.ContextMenu != null)
-    {
-        // Dont show if it's already shown
-        return;
-    }
+        if (Desktop.ContextMenu != null)
+            {
+                // Dont show if it's already shown
+                return;
+            }
 
-    var container = new VerticalStackPanel
-    {
-        Spacing = 4
-    };
+        var container = new VerticalStackPanel
+        {
+            Spacing = 4
+        };
 
-    var titleContainer = new Panel
-    {
-        Background = DefaultAssets.UISpritesheet["button"],
-        Border = DefaultAssets.UISpritesheet["border"]
-    };
+        var titleContainer = new Panel
+        {
+            Background = DefaultAssets.UISpritesheet["button"],
+            Border = DefaultAssets.UISpritesheet["border"]
+        };
 
-    var titleLabel = new Label
-    {
-        Text = "Choose Option",
-        HorizontalAlignment = HorizontalAlignment.Center
-    };
+        var titleLabel = new Label
+        {
+            Text = "Choose Option",
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
 
-    titleContainer.Widgets.Add(titleLabel);
-    container.Widgets.Add(titleContainer);
+        titleContainer.Widgets.Add(titleLabel);
+        container.Widgets.Add(titleContainer);
 
-    var menuItem1 = new MenuItem();
-    menuItem1.Text = "Resize grid";
-    menuItem1.Selected += (s, a) =>
-    {
-        // "Start New Game" selected
-      mapMenuComponent.ShowGridResizingMenu();
+        var menuItem1 = new MenuItem();
+        menuItem1.Text = "Action grid";
+        menuItem1.Selected += (s, a) =>
+        {
+            // "Start New Game" selected
+      //  mapMenuComponent.ShowGridResizingMenu();
 
+            
+        };
         
-    };
-    
-    var menuItem2 = new MenuItem();
-    menuItem2.Text = "Options";
+        var menuItem2 = new MenuItem();
+        menuItem2.Text = "Options";
 
-    var menuItem3 = new MenuItem();
-    menuItem3.Text = "Quit";
+        var menuItem3 = new MenuItem();
+        menuItem3.Text = "Quit";
 
-    var verticalMenu = new VerticalMenu();
-    if(isTileClicked(Desktop.TouchPosition.X,Desktop.TouchPosition.Y)){
-        verticalMenu.Items.Add(menuItem1);
-        verticalMenu.Items.Add(menuItem2);
-        verticalMenu.Items.Add(menuItem3);
-    }else{
-        verticalMenu.Items.Add(menuItem3);
-    }
-    container.Widgets.Add(verticalMenu);
+        var verticalMenu = new VerticalMenu();
+        if(isTileClicked(Desktop.TouchPosition.X,Desktop.TouchPosition.Y)){
+            verticalMenu.Items.Add(menuItem1);
+            verticalMenu.Items.Add(menuItem2);
+            verticalMenu.Items.Add(menuItem3);
+        }else{
+            verticalMenu.Items.Add(menuItem3);
+        }
+        container.Widgets.Add(verticalMenu);
 
-    var mouseState = Mouse.GetState();
-    var mousePosition = new Point(mouseState.X, mouseState.Y);
-    //Vector2 worldPosition = Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera._transform));
-    Vector2 worldPosition=Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
-    Desktop.ShowContextMenu(container, Desktop.TouchPosition);
+        var mouseState = Mouse.GetState();
+        var mousePosition = new Point(mouseState.X, mouseState.Y);
+        //Vector2 worldPosition = Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera._transform));
+        Vector2 worldPosition=Vector2.Transform(new Vector2(mouseState.X,mouseState.Y), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
+        Desktop.ShowContextMenu(container, Desktop.TouchPosition);
 }
+ private void BuildUITopBar()
+		{
+              if (Desktop.ContextMenu != null)
+            {
+                // Dont show if it's already shown
+                return;
+            }
 
+            var container = new HorizontalStackPanel
+            {
+                Spacing = 4
+            };
+            
+
+            var menuItem1 = new MenuItem();
+            menuItem1.Text = "Resize grid";
+            menuItem1.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+            mapMenuComponent.ShowGridResizingMenu();
+
+                
+            };
+        
+
+            var _menuFile = new MenuItem();
+			_menuFile.Id = "_menuFile";
+			_menuFile.Text = "&File";
+            _menuFile.Items.Add(menuItem1);
+
+            var _menuEdit = new MenuItem();
+			_menuEdit.Id = "_menuEdit";
+			_menuEdit.Text = "&Edit";
+
+            var _menuHelp = new MenuItem();
+			_menuHelp.Id = "_menuHelp";
+			_menuHelp.Text = "&Help";
+			//_menuHelp.Items.Add(_menuItemAbout);
+
+			var _mainMenu = new HorizontalMenu();
+			_mainMenu.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Stretch;
+			_mainMenu.Id = "_mainMenu";
+			_mainMenu.Items.Add(_menuFile);
+			_mainMenu.Items.Add(_menuEdit);
+			_mainMenu.Items.Add(_menuHelp);
+            Desktop.Widgets.Add(_mainMenu);
+            Desktop.ShowContextMenu(container,new Point(0,0));
+           // Desktop.Widgets.Add(horizontalStackPanel1);
+			
+		}
 
     }
 }
