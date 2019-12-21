@@ -96,7 +96,7 @@ namespace ScreenManager
             
             SpriteBatch spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteBatch.Begin();
-            spriteBatch.Draw(texture,new Rectangle((int)positionOfMenu.X+120,(int)positionOfMenu.Y,325,250), Color.LightSlateGray);
+            spriteBatch.Draw(texture,new Rectangle((int)positionOfMenu.X+80,(int)positionOfMenu.Y,350,250), Color.LightSlateGray);
             
             spriteBatch.End();
 
@@ -148,14 +148,16 @@ namespace ScreenManager
         Text = "Tile Size:"
         };
 
-          helloWorld.PaddingLeft = 3;
-        helloWorld.PaddingRight = 3;
-        helloWorld.PaddingTop = 3;
-         helloWorld.PaddingBottom = 3;
+         helloWorld.PaddingLeft = 3;
+       helloWorld.PaddingRight = 3;
+       helloWorld.PaddingTop = 3;
+      helloWorld.PaddingBottom = 3;
         helloWorld.Left = -280;
-         helloWorld.Top = -100;
-       helloWorld.HorizontalAlignment = HorizontalAlignment.Center;
+        helloWorld.Top = -100;
+        helloWorld.HorizontalAlignment = HorizontalAlignment.Center;
         helloWorld.VerticalAlignment = VerticalAlignment.Center;
+
+
 
         panel.Widgets.Add(helloWorld);
    
@@ -248,7 +250,7 @@ namespace ScreenManager
 
         button.Click += (s, a) =>
         {
-            var width=gridWidthButton.Value;//x
+            var width=gridWidthButton.Value;//x oige
             var height=gridHeightButton.Value;//y
             var tileSize=tileSizeButton.Value;//tile
             changedGridMapToUse((int)width,(int)height,(int)tileSize);

@@ -132,7 +132,8 @@ namespace monoGameCP
         }
 
         public void onGridMapDimensionChange(int width,int height,int tileSize){
-          drawGridSystem(width,height,tileSize);
+          drawGridSystem(height,width,tileSize);
+          mapMenuComponent.RemoveGridResizingMenu();
         }
          public void onUseTexture(Texture2D texture,string pathToTexture){
            selectedTexture=texture;
@@ -173,6 +174,7 @@ namespace monoGameCP
 
           public void updateGridSystem(){
  //spriteBatch.Begin();
+        
             foreach(TileObject rect in barriersList){
 
                          
@@ -473,13 +475,34 @@ namespace monoGameCP
 
                 
             };
+
+              var menuItem2 = new MenuItem();
+            menuItem2.Text = "Menu";
+            menuItem2.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                isMenuEnabled=true;
+                
+            };
+
+            var menuItem3= new MenuItem();
+            menuItem3.Text = "Texture";
+            menuItem3.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+             
+                isTextureMenuEnabled=true;
+            };
+        
+        
         
 
             var _menuFile = new MenuItem();
 			_menuFile.Id = "_menuFile";
 			_menuFile.Text = "&File";
             _menuFile.Items.Add(menuItem1);
-
+            _menuFile.Items.Add(menuItem2);
+            _menuFile.Items.Add(menuItem3);
             var _menuEdit = new MenuItem();
 			_menuEdit.Id = "_menuEdit";
 			_menuEdit.Text = "&Edit";
