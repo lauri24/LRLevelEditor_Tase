@@ -1,3 +1,4 @@
+using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,6 +23,7 @@ namespace ScreenManager
     public class MapMenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
 	{
         Grid grid;
+        Microsoft.Xna.Framework.Vector2 positionOfMenu;
         Panel panel;
         public event gridMapDimensionsChangeHandler changedGridMapToUse;
 
@@ -33,7 +35,10 @@ namespace ScreenManager
             
 		}
 
-	
+        public void setPositionOfMenu(Microsoft.Xna.Framework.Vector2 posIn){
+           
+            positionOfMenu=posIn;
+        }
         public bool IsGridResizeMenuEnabled(){
             if(panel==null){
                 return false;
@@ -82,27 +87,75 @@ namespace ScreenManager
             Desktop.Widgets.Add(panel);
 
         }*/
+
+
+        public void DrawBackground(){
+
+             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                                       texture.SetData<Color>(new Color[] { Color.Gray });
+            
+            SpriteBatch spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch.Begin();
+            spriteBatch.Draw(texture,new Rectangle((int)positionOfMenu.X+120,(int)positionOfMenu.Y,325,250), Color.LightSlateGray);
+            
+            spriteBatch.End();
+
+
+        }
         public void ShowGridResizingMenu(){
       
          if(panel==null){
             panel = new Panel();
 
                 
+        
+        var widthLabel = new Label
+        {
+        Id = "widthLabel1",
+        Text = "Width:"
+        };
+         widthLabel.PaddingLeft = 3;
+        widthLabel.PaddingRight = 3;
+        widthLabel.PaddingTop = 3;
+        widthLabel.PaddingBottom = 3;
+        widthLabel.Left = -110;
+        widthLabel.Top = -100;
+        widthLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        widthLabel.VerticalAlignment = VerticalAlignment.Center;
 
+        var heightLabel=new Label{
+            Id="heigthLabel",
+            Text="Height:"
+        };
+
+         heightLabel.PaddingLeft = 3;
+         heightLabel.PaddingRight = 3;
+         heightLabel.PaddingTop = 3;
+         heightLabel.PaddingBottom = 3;
+         heightLabel.Left = -230;
+         heightLabel.Top = -20;
+         heightLabel.HorizontalAlignment = HorizontalAlignment.Center;
+         heightLabel.VerticalAlignment = VerticalAlignment.Center;
+
+        panel.Widgets.Add(heightLabel);
+
+
+        
+        panel.Widgets.Add(widthLabel);
         var helloWorld = new Label
         {
         Id = "label",
-        Text = "Hello, World!"
+        Text = "Tile Size:"
         };
 
-        helloWorld.PaddingLeft = 8;
-        helloWorld.PaddingRight = 8;
-        helloWorld.PaddingTop = 8;
-        helloWorld.PaddingBottom = 8;
-        helloWorld.HorizontalAlignment = HorizontalAlignment.Center;
+          helloWorld.PaddingLeft = 3;
+        helloWorld.PaddingRight = 3;
+        helloWorld.PaddingTop = 3;
+         helloWorld.PaddingBottom = 3;
+        helloWorld.Left = -280;
+         helloWorld.Top = -100;
+       helloWorld.HorizontalAlignment = HorizontalAlignment.Center;
         helloWorld.VerticalAlignment = VerticalAlignment.Center;
-
-
 
         panel.Widgets.Add(helloWorld);
    
@@ -142,7 +195,7 @@ namespace ScreenManager
         };
 
 
-         gridWidthButton.PaddingLeft = 3;
+        gridWidthButton.PaddingLeft = 3;
         gridWidthButton.PaddingRight = 3;
         gridWidthButton.PaddingTop = 3;
         gridWidthButton.PaddingBottom = 3;
@@ -203,7 +256,7 @@ namespace ScreenManager
       
         };
         panel.Widgets.Add(button);
-
+        
        
          //var panel = new Panel();
          //panel.Widgets.Add(grid);

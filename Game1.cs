@@ -57,7 +57,7 @@ namespace monoGameCP
         bool isMenuEnabled;
         Texture2D selectedTexture;
         bool isTextureMenuEnabled;
-        
+        bool isMapMenuEnabled;
         
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
       
@@ -101,6 +101,7 @@ namespace monoGameCP
 
             string[] menuItems={"Save Level","Load Level","Import Texture","Level Layout Settings","Quit"};
             mapMenuComponent=new MapMenuComponent(this);
+            mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X/2,camera._pos.Y/2));
             menuComponent=new MenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             textureMenuComponent= new TextureMenuComponent(this,spriteBatch,mainMenuFont,menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
@@ -374,7 +375,9 @@ namespace monoGameCP
                                            
                 //                            spriteBatch.Draw(texture,new Rectangle(0,0,500,200), Color.Green);
                                            
-            }else{
+            }else if(mapMenuComponent.IsGridResizeMenuEnabled()){
+                mapMenuComponent.DrawBackground();
+           }else {
                 updateGridSystem();
                 checkForMouseClick();
             }
