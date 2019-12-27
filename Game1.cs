@@ -117,7 +117,7 @@ namespace monoGameCP
             Components.Add(textureMenuComponent);
             Components.Add(mapMenuComponent);
             MyraEnvironment.Game = this;
-            topBarMenuComponent = new TopBarMenuComponent(mapMenuComponent, this);
+            topBarMenuComponent = new TopBarMenuComponent(mapMenuComponent, this,camera);
             topBarMenuComponent.BuildUITopBar();
             tileContextMenu=new ContextMenuComponent(this,graphics.GraphicsDevice,camera);
             Desktop.TouchDown += (s, a) =>
@@ -349,8 +349,8 @@ namespace monoGameCP
                     // Move backward
                     store.storeLevelAsJSON(barriersList, menuComponent.pathToLevel);
                 }
-                if (ks.IsKeyDown(Keys.M) & !previousState.IsKeyDown(
-                Keys.M))
+                if (ks.IsKeyDown(Keys.Escape) & !previousState.IsKeyDown(
+                Keys.Escape))
                 {
                     System.Console.WriteLine("Menu");
                     if (isMenuEnabled)
