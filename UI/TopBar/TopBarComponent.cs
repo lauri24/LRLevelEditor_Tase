@@ -75,6 +75,16 @@ namespace ScreenManager
         
         
         
+            var menuItem4 = new MenuItem();
+            menuItem4.Text = "Resize Window";
+            menuItem4.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                mapMenuComponent.ShowWindowResizingMenu();
+
+                
+            };
+        
 
             var _menuFile = new MenuItem();
 			_menuFile.Id = "_menuFile";
@@ -82,6 +92,7 @@ namespace ScreenManager
             _menuFile.Items.Add(menuItem1);
             _menuFile.Items.Add(menuItem2);
             _menuFile.Items.Add(menuItem3);
+            _menuFile.Items.Add(menuItem4);
             var _menuEdit = new MenuItem();
 			_menuEdit.Id = "_menuEdit";
 			_menuEdit.Text = "&Edit";

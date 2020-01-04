@@ -105,7 +105,7 @@ namespace monoGameCP
             drawGridSystem(10, 10, 50);
 
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
-            mapMenuComponent = new MapMenuComponent(this);
+            mapMenuComponent = new MapMenuComponent(this,graphics);
             mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
             menuComponent = new MenuComponent(this, spriteBatch, mainMenuFont, menuItems);
             textureMenuComponent = new TextureMenuComponent(this, spriteBatch, mainMenuFont, menuItems);

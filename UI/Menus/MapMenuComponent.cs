@@ -23,15 +23,17 @@ namespace ScreenManager
     public class MapMenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
 	{
         Grid grid;
+        GraphicsDeviceManager graphics;
         Microsoft.Xna.Framework.Vector2 positionOfMenu;
         Panel panel;
+        Game game;
         public event gridMapDimensionsChangeHandler changedGridMapToUse;
 
-		public MapMenuComponent(Game game)
-			: base(game)
+		public MapMenuComponent(Game gameIn, GraphicsDeviceManager graphicsIn)
+			: base(gameIn)
 		{
-			
-              
+              this.graphics=graphicsIn;
+              this.game=gameIn;
             
 		}
 
@@ -102,6 +104,160 @@ namespace ScreenManager
 
 
         }
+
+      public void ShowWindowResizingMenu(){
+      
+         if(panel==null){
+            panel = new Panel();
+
+                
+        
+        var widthLabel = new Label
+        {
+        Id = "widthLabel1",
+        Text = "Width:"
+        };
+         widthLabel.PaddingLeft = 3;
+        widthLabel.PaddingRight = 3;
+        widthLabel.PaddingTop = 3;
+        widthLabel.PaddingBottom = 3;
+        widthLabel.Left = -110;
+        widthLabel.Top = -100;
+        widthLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        widthLabel.VerticalAlignment = VerticalAlignment.Center;
+
+        var heightLabel=new Label{
+            Id="heigthLabel",
+            Text="Height:"
+        };
+
+         heightLabel.PaddingLeft = 3;
+         heightLabel.PaddingRight = 3;
+         heightLabel.PaddingTop = 3;
+         heightLabel.PaddingBottom = 3;
+         heightLabel.Left = -230;
+         heightLabel.Top = -20;
+         heightLabel.HorizontalAlignment = HorizontalAlignment.Center;
+         heightLabel.VerticalAlignment = VerticalAlignment.Center;
+
+        panel.Widgets.Add(heightLabel);
+
+
+        
+        panel.Widgets.Add(widthLabel);
+        var helloWorld = new Label
+        {
+        Id = "label",
+        Text = "Tile Size:"
+        };
+
+         helloWorld.PaddingLeft = 3;
+       helloWorld.PaddingRight = 3;
+       helloWorld.PaddingTop = 3;
+      helloWorld.PaddingBottom = 3;
+        helloWorld.Left = -280;
+        helloWorld.Top = -100;
+        helloWorld.HorizontalAlignment = HorizontalAlignment.Center;
+        helloWorld.VerticalAlignment = VerticalAlignment.Center;
+
+
+
+        panel.Widgets.Add(helloWorld);
+   
+      ;
+        // ComboBox
+        /*var combo = new ComboBox
+        {
+        GridColumn = 2,
+        GridRow = 0
+        };
+        
+        combo.Items.Add(new ListItem("Red", Color.Red));
+        combo.Items.Add(new ListItem("Green", Color.Green));
+        combo.Items.Add(new ListItem("Blue", Color.Blue));
+        grid.Widgets.Add(combo);*/
+
+        var gridWidthButton = new SpinButton
+        {
+        GridColumn = 1,
+        GridRow = 0,
+        Width = 100,
+        Nullable = true
+        };
+        var gridHeightButton = new SpinButton
+        {
+        GridColumn = 1,
+        GridRow = 1,
+        Width = 100,
+        Nullable = true
+        };
+       
+
+
+        gridWidthButton.PaddingLeft = 3;
+        gridWidthButton.PaddingRight = 3;
+        gridWidthButton.PaddingTop = 3;
+        gridWidthButton.PaddingBottom = 3;
+        gridWidthButton.Left = -30;
+        gridWidthButton.Top = -100;
+        gridWidthButton.HorizontalAlignment = HorizontalAlignment.Center;
+        gridWidthButton.VerticalAlignment = VerticalAlignment.Center;
+
+         gridHeightButton.PaddingLeft = 3;
+         gridHeightButton.PaddingRight = 3;
+         gridHeightButton.PaddingTop = 3;
+         gridHeightButton.PaddingBottom = 3;
+         gridHeightButton.Left = -150;
+         gridHeightButton.Top = -20;
+         gridHeightButton.HorizontalAlignment = HorizontalAlignment.Center;
+         gridHeightButton.VerticalAlignment = VerticalAlignment.Center;
+
+        panel.Widgets.Add(gridHeightButton);
+        panel.Widgets.Add(gridWidthButton);
+
+        // Button
+        var button = new TextButton
+        {
+        GridColumn = 0,
+        GridRow = 3,
+        Text = "Change Window Size"
+        };
+        
+
+        button.PaddingLeft = 3;
+        button.PaddingRight = 3;
+        button.PaddingTop = 3;
+        button.PaddingBottom = 3;
+        button.Left = -30;
+        button.Top = -20;
+        button.HorizontalAlignment = HorizontalAlignment.Center;
+        button.VerticalAlignment = VerticalAlignment.Center;
+
+
+        button.Click += (s, a) =>
+        {
+            var width=gridWidthButton.Value;//x oige
+            var height=gridHeightButton.Value;//y
+            
+            graphics.PreferredBackBufferHeight = (int)height;
+            graphics.PreferredBackBufferWidth = (int)width;
+            graphics.ApplyChanges();
+           // drawGridSystem((int)width,(int)height,(int)tileSize);
+      
+        };
+        panel.Widgets.Add(button);
+        
+       
+         //var panel = new Panel();
+         //panel.Widgets.Add(grid);
+
+           Desktop.Widgets.Add(panel);
+         }
+        
+    }
+
+
+
         public void ShowGridResizingMenu(){
       
          if(panel==null){
