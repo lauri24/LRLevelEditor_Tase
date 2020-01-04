@@ -184,7 +184,6 @@ namespace monoGameCP
             spriteBatch.End();
         }
 
-
         public void updateGridSystem()
         {
             //spriteBatch.Begin();
