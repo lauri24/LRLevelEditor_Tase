@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "1f88a81272270bf1cdb591b42cc52e1f692f3880"
+    "signature": "981e9272bc4a2229741e452406f123d0062edc66"
   },
   "compilationOptions": {},
   "targets": {
@@ -10,6 +10,7 @@
         "dependencies": {
           "MonoGame.Content.Builder": "3.7.0.9",
           "MonoGame.Framework.DesktopGL.Core": "3.7.0.7",
+          "Myra": "0.9.7.185",
           "Newtonsoft.Json": "12.0.3",
           "System.IO.FileSystem": "4.3.0"
         },
@@ -64,6 +65,11 @@
             "rid": "win-x86",
             "assetType": "native"
           }
+        }
+      },
+      "Myra/0.9.7.185": {
+        "runtime": {
+          "lib/netstandard2.0/Myra.dll": {}
         }
       },
       "Newtonsoft.Json/12.0.3": {
@@ -146,6 +152,13 @@
       "sha512": "sha512-juPb6yv+N362liHMbYQavmlhLzufpGGvNQqcpDGEs4BzRiycBXXjhZjCwpUekx0ozLfQ+kjirnuA3/M2lc4tMQ==",
       "path": "monogame.framework.desktopgl.core/3.7.0.7",
       "hashPath": "monogame.framework.desktopgl.core.3.7.0.7.nupkg.sha512"
+    },
+    "Myra/0.9.7.185": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6Yg1hXktukEt7gcOl/TgkfHl3KSNqMfguiIOJ56LgrX5VaWx6KSzpbhg64ZU/4gLmWM6PXh+xRa8CxlXUortLg==",
+      "path": "myra/0.9.7.185",
+      "hashPath": "myra.0.9.7.185.nupkg.sha512"
     },
     "Newtonsoft.Json/12.0.3": {
       "type": "package",
