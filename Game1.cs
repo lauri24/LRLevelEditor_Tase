@@ -62,7 +62,7 @@ namespace monoGameCP
         Texture2D selectedTexture;
         public bool isTextureMenuEnabled;
         public bool isMapMenuEnabled;
-
+        GridMapManager gridMapManager;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
 
         //private Dictionary<int,Rectangle> tilesDictionary = new Dictionary<int,Rectangle>();
@@ -102,7 +102,9 @@ namespace monoGameCP
                                                   // TODO: use this.Content to load your game content here
             verdana36 = Content.Load<SpriteFont>("File");
             mainMenuFont = Content.Load<SpriteFont>("MainMenu");
-            drawGridSystem(10, 10, 50);
+            gridMapManager=new GridMapManager(this,spriteBatch,barriersList,verdana36,pixel);
+
+            gridMapManager.drawGridSystem(10, 10, 50,camera,graphics);
 
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
             mapMenuComponent = new MapMenuComponent(this,graphics);
@@ -141,7 +143,7 @@ namespace monoGameCP
 
         public void onGridMapDimensionChange(int width, int height, int tileSize)
         {
-            drawGridSystem(height, width, tileSize);
+            gridMapManager.drawGridSystem(height, width, tileSize,camera,graphics);
             mapMenuComponent.RemoveGridResizingMenu();
         }
         public void onUseTexture(Texture2D texture, string pathToTexture)
@@ -163,74 +165,6 @@ namespace monoGameCP
             isMenuEnabled = false;
         }
 
-        public void drawGridSystem(int gridSizeX, int gridSizeY, int tileSize)
-        {
-            spriteBatch.Begin();
-            for (int i = 0; i < gridSizeX; ++i)
-            {
-                for (int j = 0; j < gridSizeY; ++j)
-                {
-                    Vector2 transformedV = Vector2.Transform(new Vector2(j * tileSize, i * tileSize), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
-                    var tile = new Rectangle((int)transformedV.X, (int)transformedV.Y, tileSize, tileSize);
-                    TileObject tile2 = new TileObject();
-                    tile2.Rectangle = tile;
-                    tile2.isGreen = false;
-                    barriersList.Add(tile2);
-                    DrawBorder(tile, 2, Color.Red);
-                    var positionsLabel = "(" + tile2.Rectangle.X + ":" + tile2.Rectangle.Y + ")";
-                    spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White);
-                }
-            }
-            spriteBatch.End();
-        }
-
-        public void updateGridSystem()
-        {
-            //spriteBatch.Begin();
-
-            foreach (TileObject rect in barriersList)
-            {
-
-
-                if (rect.isGreen)
-                {
-                    if (selectedTexture != null)
-                    {
-                        if (rect.texture != null)
-                        {
-                            spriteBatch.Draw(rect.texture, rect.Rectangle, Color.Green);
-                        }
-
-                    }
-                    else
-                    {
-                        Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                        texture.SetData<Color>(new Color[] { Color.White });
-                        spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
-                        Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Matrix.Invert(camera._transform));
-                        var positionsLabel = "(" + rect.Rectangle.X + ":" + rect.Rectangle.Y + ")\n(" + worldPos.X + ":" + worldPos.Y + ")";
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
-                    }
-                }
-                else
-                {
-                    DrawBorder(rect.Rectangle, 2, Color.Red);
-                    Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Matrix.Invert(camera._transform));
-                    var positionsLabel = "(" + rect.Rectangle.X + ":" + rect.Rectangle.Y + ")\n(" + worldPos.X + ":" + worldPos.Y + ")";
-                    spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White);
-                }
-
-
-
-
-
-            }
-
-
-
-
-            // spriteBatch.End();
-        }
         public Vector2 ScreenToWorld(int x, int y)
         {
             return new Vector2(camera.Pos.X - x, camera.Pos.Y - y);
@@ -384,27 +318,7 @@ namespace monoGameCP
             base.Update(gameTime);
 
         }
-        private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
-        {
-            // Draw top line
-
-            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
-
-            // Draw left line
-            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
-
-            // Draw right line
-            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
-                                            rectangleToDraw.Y,
-                                            thicknessOfBorder,
-                                            rectangleToDraw.Height), borderColor);
-            // Draw bottom line
-            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
-                                            rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
-                                            rectangleToDraw.Width,
-                                            thicknessOfBorder), borderColor);
-        }
-        protected override void Draw(GameTime gameTime)
+            protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -440,7 +354,7 @@ namespace monoGameCP
             else
             {
 
-                updateGridSystem();
+                gridMapManager.updateGridSystem(selectedTexture,camera);
                 checkForMouseClick();
             }
 
