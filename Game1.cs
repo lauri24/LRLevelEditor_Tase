@@ -102,12 +102,12 @@ namespace monoGameCP
                                                   // TODO: use this.Content to load your game content here
             verdana36 = Content.Load<SpriteFont>("File");
             mainMenuFont = Content.Load<SpriteFont>("MainMenu");
-            gridMapManager=new GridMapManager(this,spriteBatch,barriersList,verdana36,pixel);
-
-            gridMapManager.drawGridSystem(10, 10, 50,camera,graphics);
+            gridMapManager = new GridMapManager(this, spriteBatch, barriersList, verdana36, pixel);
+            gridMapManager.gridMapType = GridMapManager.GridMapType.Isometric;
+            gridMapManager.drawGridSystem(10, 10, 50, camera, graphics);
 
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
-            mapMenuComponent = new MapMenuComponent(this,graphics);
+            mapMenuComponent = new MapMenuComponent(this, graphics);
             mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
             menuComponent = new MenuComponent(this, spriteBatch, mainMenuFont, menuItems);
             textureMenuComponent = new TextureMenuComponent(this, spriteBatch, mainMenuFont, menuItems);
@@ -115,13 +115,15 @@ namespace monoGameCP
             menuComponent.LevelSavedToJson += new levelSavedEventHandler(onLevelSaved);
             textureMenuComponent.textureLoadedToUse += new loadedTextureToUseHandler(onUseTexture);
             mapMenuComponent.changedGridMapToUse += new gridMapDimensionsChangeHandler(onGridMapDimensionChange);
+
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
             Components.Add(mapMenuComponent);
             MyraEnvironment.Game = this;
-            topBarMenuComponent = new TopBarMenuComponent(mapMenuComponent, this,camera);
+            topBarMenuComponent = new TopBarMenuComponent(mapMenuComponent, gridMapManager, this, camera);
             topBarMenuComponent.BuildUITopBar();
-            tileContextMenu=new ContextMenuComponent(this,graphics.GraphicsDevice,camera);
+            topBarMenuComponent.topBarMenuMapTypeEventHandler += new topBarMenuChangeMapType(onMapTypeChange);
+            tileContextMenu = new ContextMenuComponent(this, graphics.GraphicsDevice, camera);
             Desktop.TouchDown += (s, a) =>
             {
                 if (Desktop.DownKeys.Contains(Keys.LeftControl) || Desktop.DownKeys.Contains(Keys.RightControl))
@@ -140,10 +142,23 @@ namespace monoGameCP
             };
             // Desktop.TouchDown += (s, a) => ShowContextMenu();
         }
+        public void onMapTypeChange(String msg)
+        {
 
+         
+            if (gridMapManager.gridMapType == GridMapManager.GridMapType.Default)
+            {
+                gridMapManager.drawGridSystem(10, 10, 50, camera, graphics);
+            }
+            if (gridMapManager.gridMapType == GridMapManager.GridMapType.Isometric)
+            {
+                gridMapManager.drawIsometricGridSystem(10, 10, 50, camera, graphics);
+            }
+
+        }
         public void onGridMapDimensionChange(int width, int height, int tileSize)
         {
-            gridMapManager.drawGridSystem(height, width, tileSize,camera,graphics);
+            gridMapManager.drawGridSystem(height, width, tileSize, camera, graphics);
             mapMenuComponent.RemoveGridResizingMenu();
         }
         public void onUseTexture(Texture2D texture, string pathToTexture)
@@ -170,7 +185,7 @@ namespace monoGameCP
             return new Vector2(camera.Pos.X - x, camera.Pos.Y - y);
         }
 
-       public bool isTileClicked(int mouseX, int mouseY)
+        public bool isTileClicked(int mouseX, int mouseY)
         {
             bool didHitTile = false;
             Vector2 worldPosition = Vector2.Transform(new Vector2(mouseX, mouseY), Matrix.Invert(camera._transform));
@@ -298,27 +313,28 @@ namespace monoGameCP
             }
             else
             {
-             if (isTextureMenuEnabled){
-                if (ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
-                 Keys.T))
+                if (isTextureMenuEnabled)
                 {
-                    if (isTextureMenuEnabled)
+                    if (ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
+                     Keys.T))
                     {
-                        isTextureMenuEnabled = false;
-                    }
-                    else
-                    {
-                        isTextureMenuEnabled = true;
-                    }
+                        if (isTextureMenuEnabled)
+                        {
+                            isTextureMenuEnabled = false;
+                        }
+                        else
+                        {
+                            isTextureMenuEnabled = true;
+                        }
 
-                }
+                    }
                 }
             }
             previousState = ks;
             base.Update(gameTime);
 
         }
-            protected override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -354,7 +370,7 @@ namespace monoGameCP
             else
             {
 
-                gridMapManager.updateGridSystem(selectedTexture,camera);
+                gridMapManager.updateGridSystem(selectedTexture, camera);
                 checkForMouseClick();
             }
 

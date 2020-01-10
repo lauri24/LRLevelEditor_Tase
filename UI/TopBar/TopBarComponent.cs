@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,17 +19,20 @@ using Myra.Graphics2D.TextureAtlases;
 namespace ScreenManager
 {
       public delegate void topBarMenuAction(Texture2D texture,string pathToTexture);
-
+      public delegate void topBarMenuChangeMapType(String msg);
     
            public class TopBarMenuComponent {
                public event topBarMenuAction topBarMenuEventHandler;
+               public event topBarMenuChangeMapType topBarMenuMapTypeEventHandler;
                private  MapMenuComponent mapMenuComponent;
+               private GridMapManager gridMapManager;
                Game1 game;
                Camera2d camera;
-            public TopBarMenuComponent(MapMenuComponent mapMenuComponentIn,Game1 gameIn,Camera2d cameraIn){
+            public TopBarMenuComponent(MapMenuComponent mapMenuComponentIn,GridMapManager gridMapManagerIn,Game1 gameIn,Camera2d cameraIn){
                this.mapMenuComponent=mapMenuComponentIn;
                this.game=gameIn;
                this.camera=cameraIn;
+               this.gridMapManager=gridMapManagerIn;
             }
             public void BuildUITopBar()
 		    {
@@ -97,13 +101,41 @@ namespace ScreenManager
 			_menuEdit.Id = "_menuEdit";
 			_menuEdit.Text = "&Edit";
 
+
+
+             var _menuMapType = new MenuItem();
+			_menuMapType.Id = "_menuMapType";
+			_menuMapType.Text = "&Map Type";
+
             var _menuHelp = new MenuItem();
 			_menuHelp.Id = "_menuHelp";
 			_menuHelp.Text = "&Help";
 			//_menuHelp.Items.Add(_menuItemAbout);
 
-            
-           
+             var menuMapIsometric = new MenuItem();
+            menuMapIsometric.Text = "Isometric";
+            menuMapIsometric.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+               // mapMenuComponent.ShowWindowResizingMenu();
+               gridMapManager.gridMapType=GridMapManager.GridMapType.Isometric;
+                topBarMenuMapTypeEventHandler("Isometric");
+                
+            };
+
+            var menuMapDefault = new MenuItem();
+            menuMapDefault.Text = "Default/Platformer";
+            menuMapDefault.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+               // mapMenuComponent.ShowWindowResizingMenu();
+                 gridMapManager.gridMapType=GridMapManager.GridMapType.Default;
+                 
+                topBarMenuMapTypeEventHandler("Default");
+            };
+        
+            _menuMapType.Items.Add(menuMapIsometric);
+            _menuMapType.Items.Add(menuMapDefault);
 			//_menuHelp.Items.Add(_menu
 
             var zoom160 = new MenuItem();
@@ -176,6 +208,7 @@ namespace ScreenManager
 			_mainMenu.Items.Add(_menuEdit);
 			_mainMenu.Items.Add(_menuHelp);
             _mainMenu.Items.Add(_menuZoom);
+            _mainMenu.Items.Add(_menuMapType);
             Desktop.Widgets.Add(_mainMenu);
             Desktop.ShowContextMenu(container,new Point(0,0));
            // Desktop.Widgets.Add(horizontalStackPanel1);
