@@ -41,7 +41,7 @@ namespace monoGameCP
             this.pixel = pixel;
            
         }
-
+        //http://clintbellanger.net/articles/isometric_math/
         //spriteBatch.Draw(texture, new Rectangle(400, 50, 100, 100), null, Color.Red, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
         public void drawIsometricGridSystem(int gridSizeX, int gridSizeY, int tileSize, Camera2d camera, GraphicsDeviceManager graphics)
         {
@@ -52,10 +52,11 @@ namespace monoGameCP
                 for (int j = 0; j < gridSizeY; ++j)
                 {
                   
-                    Vector2 transformedV = Vector2.Transform(new Vector2(j * tileSize, i * tileSize), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
+                    var isotileX = (j - i) * tileSize/2;
+                    var isotileY = (j + i) * tileSize/2;
+                    Vector2 transformedV = Vector2.Transform(new Vector2(isotileX, isotileY), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
                     var tile = new Rectangle((int)transformedV.X, (int)transformedV.Y, tileSize, tileSize);
-                    tile.X = (tile.X - tile.Y) * tile.Width/2;
-                    tile.Y = (tile.X + tile.Y) * tile.Height/2;
+                    
                     TileObject tile2 = new TileObject();
                     tile2.Rectangle = tile;
                     tile2.isGreen = false;
