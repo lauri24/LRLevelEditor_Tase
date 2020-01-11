@@ -220,6 +220,7 @@ namespace monoGameCP
             mapInfoObject = mapInfo;
             gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             barriersList = jsonLevel;
+            gridMapManager.barriersList=barriersList;
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
             gridMapManager.updateGridSystem(selectedTexture, camera);
             spriteBatch.End();
@@ -395,7 +396,7 @@ namespace monoGameCP
             }
             else
             {
-
+                gridMapManager.barriersList=barriersList;
                 gridMapManager.updateGridSystem(selectedTexture, camera);
                 checkForMouseClick();
             }
