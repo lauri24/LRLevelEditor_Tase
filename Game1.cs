@@ -16,6 +16,21 @@ using Myra.Graphics2D.TextureAtlases;
 namespace monoGameCP
 {
 
+    public class MapInfoObject
+    {
+
+        public string mapType;
+        public int windowWidth;
+        public int windowHeight;
+        public int gridSizeX;
+        public int gridSizeY;
+        public int tileSize;
+        public MapInfoObject()
+        {
+
+        }
+
+    }
     public class TileObject
     {
 
@@ -63,22 +78,30 @@ namespace monoGameCP
         public bool isTextureMenuEnabled;
         public bool isMapMenuEnabled;
         GridMapManager gridMapManager;
+
+        MapInfoObject mapInfoObject;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
 
         //private Dictionary<int,Rectangle> tilesDictionary = new Dictionary<int,Rectangle>();
 
         public Game1()
         {
+            mapInfoObject = new MapInfoObject();
             graphics = new GraphicsDeviceManager(this);
             changeWindowSize(800, 600);
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            mapInfoObject.windowHeight = 600;
+            mapInfoObject.windowWidth = 800;
+
         }
         private void changeWindowSize(int x, int y)
         {
             graphics.PreferredBackBufferHeight = y;
             graphics.PreferredBackBufferWidth = x;
+            mapInfoObject.windowWidth = x;
+            mapInfoObject.windowHeight = y;
         }
         protected override void Initialize()
         {
@@ -103,9 +126,12 @@ namespace monoGameCP
             verdana36 = Content.Load<SpriteFont>("File");
             mainMenuFont = Content.Load<SpriteFont>("MainMenu");
             gridMapManager = new GridMapManager(this, spriteBatch, barriersList, verdana36, pixel);
-            gridMapManager.gridMapType = GridMapManager.GridMapType.Isometric;
-            gridMapManager.drawGridSystem(10, 10, 50, camera, graphics);
-
+            gridMapManager.gridMapType = GridMapManager.GridMapType.Default;
+            mapInfoObject.gridSizeX = 10;
+            mapInfoObject.gridSizeY = 10;
+            mapInfoObject.tileSize = 50;
+            gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
+            mapInfoObject.mapType = "Default";
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
             mapMenuComponent = new MapMenuComponent(this, graphics);
             mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
@@ -145,20 +171,35 @@ namespace monoGameCP
         public void onMapTypeChange(String msg)
         {
 
-         
+
             if (gridMapManager.gridMapType == GridMapManager.GridMapType.Default)
             {
-                gridMapManager.drawGridSystem(10, 10, 50, camera, graphics);
+                mapInfoObject.mapType = "Default";
+                gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             }
             if (gridMapManager.gridMapType == GridMapManager.GridMapType.Isometric)
             {
-                gridMapManager.drawIsometricGridSystem(10, 10, 50, camera, graphics);
+                mapInfoObject.mapType = "Isometric";
+                gridMapManager.drawIsometricGridSystem(mapInfoObject, camera, graphics);
             }
 
         }
         public void onGridMapDimensionChange(int width, int height, int tileSize)
         {
-            gridMapManager.drawGridSystem(height, width, tileSize, camera, graphics);
+            mapInfoObject.gridSizeX = height;
+            mapInfoObject.gridSizeY = width;
+            mapInfoObject.tileSize = tileSize;
+            if (gridMapManager.gridMapType == GridMapManager.GridMapType.Default)
+            {
+                mapInfoObject.mapType = "Default";
+                gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
+            }
+            if (gridMapManager.gridMapType == GridMapManager.GridMapType.Isometric)
+            {
+                mapInfoObject.mapType = "Isometric";
+                gridMapManager.drawIsometricGridSystem(mapInfoObject, camera, graphics);
+            }
+
             mapMenuComponent.RemoveGridResizingMenu();
         }
         public void onUseTexture(Texture2D texture, string pathToTexture)
@@ -170,13 +211,18 @@ namespace monoGameCP
         public void onLevelSaved()
         {
             System.Console.WriteLine("Level Saved");
-            store.storeLevelAsJSON(barriersList, menuComponent.pathToLevel);
+            store.storeLevelAsJSON(barriersList, mapInfoObject, menuComponent.pathToLevel);
             isMenuEnabled = false;
         }
-        public void onLevelLoaded(List<TileObject> jsonLevel)
+        public void onLevelLoaded(List<TileObject> jsonLevel, MapInfoObject mapInfo)
         {
             Console.WriteLine("Level loaded");
+            mapInfoObject = mapInfo;
+            gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             barriersList = jsonLevel;
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
+            gridMapManager.updateGridSystem(selectedTexture, camera);
+            spriteBatch.End();
             isMenuEnabled = false;
         }
 
@@ -219,27 +265,7 @@ namespace monoGameCP
                 System.Console.WriteLine("World position X:{0} Y:{1}", worldPosition.X, worldPosition.Y);
                 //System.Console.WriteLine("Tere {0},{1}",mouseState.X,mouseState.Y);
                 //System.Console.WriteLine("Tere count {0}",barriersList.Count);
-                foreach (TileObject rect in barriersList)
-                {
-
-
-                    if (rect.Rectangle.Contains(worldPosition))
-                    {
-
-                        //spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
-                        //   spriteBatch.Begin();
-                        // System.Console.WriteLine("Hit rect at {0} {1}",mouseState.X,mouseState.Y);
-                        System.Console.WriteLine("Hit");
-                        Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                        texture.SetData<Color>(new Color[] { Color.White });
-                        rect.texture = selectedTexture;
-                        rect.texturePath = selectedTexturePath;
-                        rect.isGreen = true;
-                        spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
-                        //    spriteBatch.End();
-                    }
-                }
-
+                gridMapManager.checkAndHighlightSelectedTile(worldPosition, selectedTexture, selectedTexturePath);
 
             }
 
@@ -295,7 +321,7 @@ namespace monoGameCP
                 if (ks.IsKeyDown(Keys.LeftControl) && ks.IsKeyDown(Keys.S))
                 {
                     // Move backward
-                    store.storeLevelAsJSON(barriersList, menuComponent.pathToLevel);
+                    store.storeLevelAsJSON(barriersList, mapInfoObject, menuComponent.pathToLevel);
                 }
                 if (ks.IsKeyDown(Keys.Escape) & !previousState.IsKeyDown(
                 Keys.Escape))

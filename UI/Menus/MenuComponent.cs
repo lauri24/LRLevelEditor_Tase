@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace ScreenManager
 {
-    public delegate void levelLoadedEventHandler(List<TileObject> level);
+    public delegate void levelLoadedEventHandler(List<TileObject> level,MapInfoObject mapInfo);
     public delegate void levelSavedEventHandler();
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
 	{
@@ -122,8 +122,13 @@ namespace ScreenManager
                     using (StreamReader r = new StreamReader(pathToLevel))
                     {
                         string json = r.ReadToEnd();
-                        List<TileObject> levelObject = JsonConvert.DeserializeObject<List<TileObject>>(json);
-						foreach(TileObject tile in levelObject){
+                        List<Dictionary<string,dynamic>> levelObject = JsonConvert.DeserializeObject<List<Dictionary<string,dynamic>>>(json);
+						Dictionary<string, dynamic>.ValueCollection infoObjectvalues =levelObject[0].Values;  
+		//				 windowMapInfo.Add("MapWindowInfo",infoObject);
+      //    tilesInfo.Add("Tiles",listIn);
+						MapInfoObject infoObject= JsonConvert.DeserializeObject<MapInfoObject>(levelObject[0]["MapWindowInfo"].ToString());   
+						System.Collections.Generic.List<TileObject> tileObjects=JsonConvert.DeserializeObject<System.Collections.Generic.List<TileObject>>(levelObject[1]["Tiles"].ToString());   
+						foreach(TileObject tile in tileObjects){
 							if(tile.texturePath!=null){
 								 FileStream fileStream = new FileStream(tile.texturePath, FileMode.Open);
           						 tile.texture = Texture2D.FromStream(GraphicsDevice, fileStream);
@@ -132,7 +137,7 @@ namespace ScreenManager
 
 
 						}
-                        LevelLoadedFromJson(levelObject);
+                        LevelLoadedFromJson(tileObjects,infoObject);
                     }
                     
 
