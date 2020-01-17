@@ -1,14 +1,19 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "981e9272bc4a2229741e452406f123d0062edc66"
+    "signature": "caa63e6276a2179adbb7bc1a74cacc5f8e41dba6"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "monoGameCP/1.0.0": {
         "dependencies": {
+          "ImGui.NET": "1.72.0",
           "MonoGame.Content.Builder": "3.7.0.9",
+          "MonoGame.Extended": "3.7.0",
+          "MonoGame.Extended.Graphics": "3.7.0",
+          "MonoGame.Extended.Gui": "3.7.0",
+          "MonoGame.Extended.NuclexGui": "3.7.0",
           "MonoGame.Framework.DesktopGL.Core": "3.7.0.7",
           "Myra": "0.9.7.185",
           "Newtonsoft.Json": "12.0.3",
@@ -18,8 +23,78 @@
           "monoGameCP.dll": {}
         }
       },
+      "ImGui.NET/1.72.0": {
+        "dependencies": {
+          "System.Buffers": "4.4.0",
+          "System.Numerics.Vectors": "4.4.0",
+          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ImGui.NET.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libcimgui.so": {
+            "rid": "linux-x64",
+            "assetType": "native"
+          },
+          "runtimes/osx-x64/native/libcimgui.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native"
+          },
+          "runtimes/win-x64/native/cimgui.dll": {
+            "rid": "win-x64",
+            "assetType": "native"
+          },
+          "runtimes/win-x86/native/cimgui.dll": {
+            "rid": "win-x86",
+            "assetType": "native"
+          }
+        }
+      },
       "Microsoft.NETCore.Targets/1.1.0": {},
       "MonoGame.Content.Builder/3.7.0.9": {},
+      "MonoGame.Extended/3.7.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.dll": {}
+        }
+      },
+      "MonoGame.Extended.Graphics/3.7.0": {
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Graphics.dll": {}
+        }
+      },
+      "MonoGame.Extended.Gui/3.7.0": {
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0",
+          "MonoGame.Extended.Input": "3.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Gui.dll": {}
+        }
+      },
+      "MonoGame.Extended.Input/3.7.0": {
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Input.dll": {}
+        }
+      },
+      "MonoGame.Extended.NuclexGui/3.7.0": {
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0",
+          "MonoGame.Extended.Input": "3.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.NuclexGui.dll": {}
+        }
+      },
       "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
         "runtime": {
           "lib/netstandard2.0/MonoGame.Framework.dll": {}
@@ -77,6 +152,7 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "System.Buffers/4.4.0": {},
       "System.IO/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Targets": "1.1.0",
@@ -101,9 +177,15 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.Numerics.Vectors/4.4.0": {},
       "System.Runtime/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         }
       },
       "System.Runtime.Handles/4.3.0": {
@@ -132,6 +214,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "ImGui.NET/1.72.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mYUUVFfR/eWaifR7URA27xt6NNL8jDIPy15TxsArmBeWvnLzECQy2xxcjR2j3/COHcB/9G8oo8vGy6b7a0ykpg==",
+      "path": "imgui.net/1.72.0",
+      "hashPath": "imgui.net.1.72.0.nupkg.sha512"
+    },
     "Microsoft.NETCore.Targets/1.1.0": {
       "type": "package",
       "serviceable": true,
@@ -145,6 +234,41 @@
       "sha512": "sha512-7fUYAAlaryMgD1cC01vvvLpkjvC1TJZYNVeMBiLmRPzXmh6gAROew88Rk6XlyeE4Q1rGRT0OcTfVVVGpopgwew==",
       "path": "monogame.content.builder/3.7.0.9",
       "hashPath": "monogame.content.builder.3.7.0.9.nupkg.sha512"
+    },
+    "MonoGame.Extended/3.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Qmf/T7yw4SZOgsir2/oPDR0jnbqRZUkBVjWgMTyDAk9hNF16VgM443Igy1X7XVfmDH4mmYifYdvKZpyBDeGO8Q==",
+      "path": "monogame.extended/3.7.0",
+      "hashPath": "monogame.extended.3.7.0.nupkg.sha512"
+    },
+    "MonoGame.Extended.Graphics/3.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WA9vFjslssAvp9PCg/Rd7jMVxX1VyQVr3wF8b/mYssMeN41nlLGddSmemEoqWrzHXvhnzqU2MhVXddPAdyiAqw==",
+      "path": "monogame.extended.graphics/3.7.0",
+      "hashPath": "monogame.extended.graphics.3.7.0.nupkg.sha512"
+    },
+    "MonoGame.Extended.Gui/3.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RvDIbQzFGHlt30+FvBDFSD9YUe2pzBYF617T55m5vkIHch0A8XZbjU40PTFM7rjHoIXmGQgIG+OTy1GSWdLnNg==",
+      "path": "monogame.extended.gui/3.7.0",
+      "hashPath": "monogame.extended.gui.3.7.0.nupkg.sha512"
+    },
+    "MonoGame.Extended.Input/3.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LT7pRjVzuAGn3NiL9H8oTdvloyT8ljai7HE+gC1vMxgKo30qhF1PbsVDpTPDxBrLfvTlia8Z/rFpKmrT1xVu2w==",
+      "path": "monogame.extended.input/3.7.0",
+      "hashPath": "monogame.extended.input.3.7.0.nupkg.sha512"
+    },
+    "MonoGame.Extended.NuclexGui/3.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Su8wKVKo+uyEoJ9suYF39deSXFzAtJCBl6FHlPELlSvyZjToOx0lCzmt+Hf67bzjdPB/4daJAYODfcg4JbWqpg==",
+      "path": "monogame.extended.nuclexgui/3.7.0",
+      "hashPath": "monogame.extended.nuclexgui.3.7.0.nupkg.sha512"
     },
     "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
       "type": "package",
@@ -167,6 +291,13 @@
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
     },
+    "System.Buffers/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AwarXzzoDwX6BgrhjoJsk6tUezZEozOT5Y9QKF94Gl4JK91I4PIIBkBco9068Y9/Dra8Dkbie99kXB8+1BaYKw==",
+      "path": "system.buffers/4.4.0",
+      "hashPath": "system.buffers.4.4.0.nupkg.sha512"
+    },
     "System.IO/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -188,12 +319,26 @@
       "path": "system.io.filesystem.primitives/4.3.0",
       "hashPath": "system.io.filesystem.primitives.4.3.0.nupkg.sha512"
     },
+    "System.Numerics.Vectors/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UiLzLW+Lw6HLed1Hcg+8jSRttrbuXv7DANVj0DkL9g6EnnzbL75EB7EWsw5uRbhxd/4YdG8li5XizGWepmG3PQ==",
+      "path": "system.numerics.vectors/4.4.0",
+      "hashPath": "system.numerics.vectors.4.4.0.nupkg.sha512"
+    },
     "System.Runtime/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-LqqjqCn6TYyfYBzcpLdeJGvD+15oGl4snauMzBFH9Qt5h4VcIIeKKrIh2r6827Xg4umGEJTIwvv3wHhpdkVQNA==",
       "path": "system.runtime/4.3.0",
       "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9dLLuBxr5GNmOfl2jSMcsHuteEg32BEfUotmmUkmZjpR3RpVHE8YQwt0ow3p6prwA1ME8WqDVZqrr8z6H8G+Kw==",
+      "path": "system.runtime.compilerservices.unsafe/4.4.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
     },
     "System.Runtime.Handles/4.3.0": {
       "type": "package",

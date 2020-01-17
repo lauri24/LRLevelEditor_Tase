@@ -15,7 +15,14 @@ using Myra.Graphics2D.TextureAtlases;
 
 namespace monoGameCP
 {
+    public enum EditorMenuState{
+        MainMenu,
+        Editor,
+        MapMenu,
+        TextureMenu,
+        ContextMenu
 
+    }
     public class MapInfoObject
     {
 
@@ -56,7 +63,7 @@ namespace monoGameCP
 
     public class Game1 : Game
     {
-
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D pixel;
@@ -73,6 +80,8 @@ namespace monoGameCP
         MapMenuComponent mapMenuComponent;
         KeyboardState previousState;
         TopBarMenuComponent topBarMenuComponent;
+
+        EditorMenuState editorMenuState;
         public bool isMenuEnabled;
         Texture2D selectedTexture;
         public bool isTextureMenuEnabled;
@@ -81,11 +90,15 @@ namespace monoGameCP
 
         MapInfoObject mapInfoObject;
         public System.Collections.Generic.List<TileObject> barriersList = new System.Collections.Generic.List<TileObject>();
-
+        private LRGUIComponents imgui; //construct/load these fields somewhere
+        private Texture2D scrollBackgroundTexture;
+        private Texture2D scrollGripTexture;
+        private float scrollvalue = 0;
         //private Dictionary<int,Rectangle> tilesDictionary = new Dictionary<int,Rectangle>();
 
         public Game1()
         {
+            editorMenuState=EditorMenuState.Editor;
             mapInfoObject = new MapInfoObject();
             graphics = new GraphicsDeviceManager(this);
             changeWindowSize(800, 600);
@@ -106,6 +119,7 @@ namespace monoGameCP
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            imgui=new LRGUIComponents(graphics);
             store = new LevelStore();
             camera = new Camera2d();
             camera.Pos = new Vector2(0.0f, 200.0f);
@@ -123,6 +137,14 @@ namespace monoGameCP
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White }); // so that we can draw whatever color we want on top of it
                                                   // TODO: use this.Content to load your game content here
+
+            scrollBackgroundTexture=new Texture2D(GraphicsDevice,1,1,false,SurfaceFormat.Color);
+            scrollBackgroundTexture.SetData(new[]{Color.White});
+            scrollGripTexture=new Texture2D(GraphicsDevice,1,1,false,SurfaceFormat.Color);
+            scrollGripTexture.SetData(new[]{Color.Orange});
+
+
+
             verdana36 = Content.Load<SpriteFont>("File");
             mainMenuFont = Content.Load<SpriteFont>("MainMenu");
             gridMapManager = new GridMapManager(this, spriteBatch, barriersList, verdana36, pixel);
@@ -162,6 +184,7 @@ namespace monoGameCP
                     if (mapMenuComponent.IsGridResizeMenuEnabled())
                     {
                         mapMenuComponent.RemoveGridResizingMenu();
+                        editorMenuState=EditorMenuState.Editor;
                     }
 
                 }
@@ -182,6 +205,7 @@ namespace monoGameCP
                 mapInfoObject.mapType = "Isometric";
                 gridMapManager.drawIsometricGridSystem(mapInfoObject, camera, graphics);
             }
+            editorMenuState=EditorMenuState.Editor;
 
         }
         public void onGridMapDimensionChange(int width, int height, int tileSize)
@@ -201,18 +225,19 @@ namespace monoGameCP
             }
 
             mapMenuComponent.RemoveGridResizingMenu();
+            editorMenuState=EditorMenuState.Editor;
         }
         public void onUseTexture(Texture2D texture, string pathToTexture)
         {
             selectedTexture = texture;
             selectedTexturePath = pathToTexture;
-            isTextureMenuEnabled = false;
+            editorMenuState=EditorMenuState.Editor;
         }
         public void onLevelSaved()
         {
             System.Console.WriteLine("Level Saved");
             store.storeLevelAsJSON(barriersList, mapInfoObject, menuComponent.pathToLevel);
-            isMenuEnabled = false;
+            editorMenuState=EditorMenuState.Editor;
         }
         public void onLevelLoaded(List<TileObject> jsonLevel, MapInfoObject mapInfo)
         {
@@ -224,7 +249,7 @@ namespace monoGameCP
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
             gridMapManager.updateGridSystem(selectedTexture, camera);
             spriteBatch.End();
-            isMenuEnabled = false;
+            editorMenuState=EditorMenuState.Editor;
         }
 
         public Vector2 ScreenToWorld(int x, int y)
@@ -271,27 +296,10 @@ namespace monoGameCP
             }
 
         }
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                if (mapMenuComponent.IsGridResizeMenuEnabled())
-                {
-                    mapMenuComponent.RemoveGridResizingMenu();
-                }
-                else
-                {
-                    // Exit();
-                }
 
-            }
+        public void EditorKeybordEventHandler(KeyboardState ks){
 
-            KeyboardState ks = Keyboard.GetState();
-
-            // TODO: Add your update logic here
-            if (!isTextureMenuEnabled)
-            {
-                if (ks.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(
+                 if (ks.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(
                 Keys.Left))
                 {
                     camera.Move(new Vector2(-100.0f, 0));
@@ -309,13 +317,13 @@ namespace monoGameCP
                 if (ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
                 Keys.T))
                 {
-                    if (isTextureMenuEnabled)
+                    if (editorMenuState==EditorMenuState.TextureMenu)
                     {
-                        isTextureMenuEnabled = false;
+                        editorMenuState=EditorMenuState.Editor;
                     }
                     else
                     {
-                        isTextureMenuEnabled = true;
+                       editorMenuState=EditorMenuState.TextureMenu;
                     }
 
                 }
@@ -328,15 +336,58 @@ namespace monoGameCP
                 Keys.Escape))
                 {
                     System.Console.WriteLine("Menu");
-                    if (isMenuEnabled)
+                    if (editorMenuState==EditorMenuState.MainMenu)
                     {
-                        isMenuEnabled = false;
+                        editorMenuState=EditorMenuState.Editor;
                     }
                     else
                     {
-                        isMenuEnabled = true;
+                       editorMenuState=EditorMenuState.MainMenu;
                     }
                 }
+        }
+        protected override void Update(GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                if (mapMenuComponent.IsGridResizeMenuEnabled())
+                {
+                    mapMenuComponent.RemoveGridResizingMenu();
+                    editorMenuState=EditorMenuState.Editor;
+                }
+                else
+                {
+                    // Exit();
+                }
+
+            }
+
+            KeyboardState ks = Keyboard.GetState();
+
+             switch (editorMenuState)
+            {
+                case EditorMenuState.Editor:
+                    EditorKeybordEventHandler(ks);
+                    break;
+                case EditorMenuState.MainMenu:
+                    break;
+                case EditorMenuState.ContextMenu:
+                    break;
+                case EditorMenuState.MapMenu:
+                    break;
+                case EditorMenuState.TextureMenu:
+                    break;
+                default:
+                    break;
+            }
+
+
+            // TODO: Add your update logic here
+            if (!isTextureMenuEnabled)
+            {
+               
+                
+             
             }
             else
             {
@@ -358,6 +409,10 @@ namespace monoGameCP
                 }
             }
             previousState = ks;
+            //imgui.Update(gameTime); 
+            
+                                            
+
             base.Update(gameTime);
 
         }
@@ -374,12 +429,12 @@ namespace monoGameCP
             //      spriteBatch.End();
             //  camera.Zoom = 0.5f;
             // camera.Move(new Vector2(500.0f,200.0f));
-            if (isTextureMenuEnabled)
+            if (editorMenuState==EditorMenuState.TextureMenu)
             {
                 textureMenuComponent.setMenuPosition(new Vector2(camera._pos.X - 120, camera._pos.Y / 2));
                 textureMenuComponent.DrawMenu();
             }
-            else if (isMenuEnabled)
+            else if (editorMenuState==EditorMenuState.MainMenu)
             {
                 menuComponent.setMenuPosition(new Vector2(camera._pos.X - 120, camera._pos.Y / 2));
                 menuComponent.DrawMenu();
@@ -401,7 +456,11 @@ namespace monoGameCP
                 checkForMouseClick();
             }
 
-
+          
+            /*imgui.Begin(camera);
+            scrollvalue = imgui.DoScrollbar(1, new Rectangle(-mapInfoObject.windowWidth/2,mapInfoObject.windowHeight-150,mapInfoObject.windowWidth, 50), scrollBackgroundTexture, scrollGripTexture, 100, scrollvalue, true,camera);
+            //More GUI items
+            imgui.End();*/
             base.Draw(gameTime);
 
             spriteBatch.End();
