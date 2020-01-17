@@ -81,7 +81,7 @@ namespace monoGameCP
         KeyboardState previousState;
         TopBarMenuComponent topBarMenuComponent;
 
-        EditorMenuState editorMenuState;
+        public EditorMenuState editorMenuState;
         public bool isMenuEnabled;
         Texture2D selectedTexture;
         public bool isTextureMenuEnabled;
@@ -381,33 +381,6 @@ namespace monoGameCP
                     break;
             }
 
-
-            // TODO: Add your update logic here
-            if (!isTextureMenuEnabled)
-            {
-               
-                
-             
-            }
-            else
-            {
-                if (isTextureMenuEnabled)
-                {
-                    if (ks.IsKeyDown(Keys.T) & !previousState.IsKeyDown(
-                     Keys.T))
-                    {
-                        if (isTextureMenuEnabled)
-                        {
-                            isTextureMenuEnabled = false;
-                        }
-                        else
-                        {
-                            isTextureMenuEnabled = true;
-                        }
-
-                    }
-                }
-            }
             previousState = ks;
             //imgui.Update(gameTime); 
             

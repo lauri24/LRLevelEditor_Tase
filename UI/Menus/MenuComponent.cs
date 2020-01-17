@@ -34,7 +34,7 @@ namespace ScreenManager
 		Vector2 position;
 		float width = 0f;
 		float height = 0f;
-
+		Game1 game;
 		public int SelectedIndex
 		{
 			get { return selectedIndex; }
@@ -50,7 +50,7 @@ namespace ScreenManager
         public void setMenuPosition(Vector2 posIn){
             position=posIn;
         }
-		public MenuComponent(Game game, 
+		public MenuComponent(Game1 game, 
 			SpriteBatch spriteBatch, 
 			SpriteFont spriteFont, 
 			string[] menuItems)
@@ -59,6 +59,7 @@ namespace ScreenManager
 			this.spriteBatch = spriteBatch;
 			this.spriteFont = spriteFont;
 			this.menuItems = menuItems;
+			this.game=game;
 			MeasureMenu();
             pathToLevel=Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"/Content/level1.json";
 		}
@@ -95,7 +96,7 @@ namespace ScreenManager
 		public override void Update(GameTime gameTime)
 		{
 			keyboardState = Keyboard.GetState();
-
+			if(game.editorMenuState==EditorMenuState.MainMenu){
 			if (CheckKey(Keys.Down))
 			{
 				selectedIndex++;
@@ -151,6 +152,7 @@ namespace ScreenManager
                      System.Console.WriteLine("Quit");
                      Game.Exit();
                 }
+			}
             }
 
 			base.Update(gameTime);

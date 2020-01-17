@@ -36,6 +36,7 @@ namespace ScreenManager
 		int start=0;
 		int maxItems=20;
 		int end=20;
+        Game1 game;
         public int SelectedIndex
         {
             get { return selectedIndex; }
@@ -52,15 +53,16 @@ namespace ScreenManager
         {
             position = posIn;
         }
-        public TextureMenuComponent(Game game,
+        public TextureMenuComponent(Game1 game,
             SpriteBatch spriteBatch,
             SpriteFont spriteFont,
             string[] menuItems)
-            : base(game)
+            :base(game)
         {
             this.spriteBatch = spriteBatch;
             this.spriteFont = spriteFont;
             this.menuItems = menuItems;
+            this.game=game;
             MeasureMenu();
             selectedIndex=0;
             pathToContent = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\Content\\Texture";
@@ -151,6 +153,8 @@ namespace ScreenManager
 
         public override void Update(GameTime gameTime)
         {
+            if(game.editorMenuState==EditorMenuState.TextureMenu){
+          
             keyboardState = Keyboard.GetState();
 
             if (CheckKey(Keys.Right))
@@ -165,18 +169,21 @@ namespace ScreenManager
                 if (selectedIndex < 0)
                     selectedIndex = textures.Count() - 1;
             }
-            if (CheckKey(Keys.Q))
+            if (CheckKey(Keys.Escape))
             {
                 System.Console.WriteLine("ESCAPE");
+                game.editorMenuState=EditorMenuState.Editor;
             }
             if (CheckKey(Keys.Down))
             {
                
-                if (start + 20 <= textures.Count - maxItems)
+                if (start + 20 <= textures.Count-20){
                     selectedIndex=selectedIndex+20;
                     start=start+20;
+                }
+                   
 
-                if (end + 20 <= textures.Count - 20)
+                if (end + 20 <= textures.Count)
                     end=end+20;
                     
             }
@@ -184,12 +191,17 @@ namespace ScreenManager
             if (CheckKey(Keys.Up))
             {
                
-                if (start - 20 >= 0)
-                    selectedIndex=selectedIndex-20;
-                    start=start-20;
+                if (start - 20 >= 0){
+                         selectedIndex=selectedIndex-20;
+                         start=start-20;
+                    }
+                   
 
                 if (end - 20 >= maxItems)
-                    end=end-20;
+                    if(end-20>0){
+                        end=end-20;
+                    }
+                   
             }
 
             if (CheckKey(Keys.Enter))
@@ -197,32 +209,13 @@ namespace ScreenManager
                 textureLoadedToUse(textures.ElementAt(selectedIndex).Value, textures.ElementAt(selectedIndex).Key);
 
             }
-
+            }
             base.Update(gameTime);
 
             oldKeyboardState = keyboardState;
+
         }
 
-        /*public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-			Vector2 location = position;
-			Color tint;
-
-			for (int i = 0; i < menuItems.Length; i++)
-			{
-				if (i == selectedIndex)
-					tint = hilite;
-				else
-					tint = normal;
-				spriteBatch.DrawString(
-					spriteFont,
-					menuItems[i],
-					location,
-					tint);
-				location.Y += spriteFont.LineSpacing + 5;
-			}
-		}*/
         private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
             // Draw top line
