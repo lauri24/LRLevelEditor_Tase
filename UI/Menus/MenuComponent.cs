@@ -109,6 +109,10 @@ namespace ScreenManager
 				if (selectedIndex < 0)
 					selectedIndex = menuItems.Length - 1;
 			}
+			if (CheckKey(Keys.Escape))
+			{
+				game.editorMenuState=EditorMenuState.Editor;
+			}
 
             if(CheckKey(Keys.Enter)){
                 if( menuItems[selectedIndex]=="Import Texture"){

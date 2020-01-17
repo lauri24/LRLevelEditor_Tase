@@ -63,7 +63,7 @@ namespace ScreenManager
             menuItem2.Selected += (s, a) =>
             {
                 // "Start New Game" selected
-                
+                  game.editorMenuState=EditorMenuState.MainMenu;
                game.isMenuEnabled=true;
                 
             };
@@ -73,7 +73,7 @@ namespace ScreenManager
             menuItem3.Selected += (s, a) =>
             {
                 // "Start New Game" selected
-             
+                game.editorMenuState=EditorMenuState.TextureMenu;
                 game.isTextureMenuEnabled=true;
             };
         
