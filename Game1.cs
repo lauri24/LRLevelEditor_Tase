@@ -45,6 +45,10 @@ namespace monoGameCP
         public bool isGreen;
         public string label_text;
         public string texturePath;
+
+        public bool isRotated;
+
+        public float rotationAngle;
         public bool isCollidable;
         public bool isTextureAdded;
         [JsonIgnore]
@@ -148,11 +152,12 @@ namespace monoGameCP
             verdana36 = Content.Load<SpriteFont>("File");
             mainMenuFont = Content.Load<SpriteFont>("MainMenu");
             gridMapManager = new GridMapManager(this, spriteBatch, barriersList, verdana36, pixel);
-            gridMapManager.gridMapType = GridMapManager.GridMapType.Default;
+            gridMapManager.gridMapType = GridMapManager.GridMapType.Isometric;
             mapInfoObject.gridSizeX = 10;
             mapInfoObject.gridSizeY = 10;
             mapInfoObject.tileSize = 50;
-            gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
+           // gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
+            gridMapManager.drawIsometricGridSystem(mapInfoObject,camera,graphics);
             mapInfoObject.mapType = "Default";
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
             mapMenuComponent = new MapMenuComponent(this, graphics);

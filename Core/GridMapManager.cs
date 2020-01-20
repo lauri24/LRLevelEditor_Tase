@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,7 +9,7 @@ using Newtonsoft.Json;
 using System.IO;
 using ScreenManager;
 using System.Collections.Generic;
-
+using RotatedRectangleCollisions;
 //Change namespace
 namespace monoGameCP
 {
@@ -42,9 +43,13 @@ namespace monoGameCP
 
         }
         //http://clintbellanger.net/articles/isometric_math/
-        //spriteBatch.Draw(texture, new Rectangle(400, 50, 100, 100), null, Color.Red, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+        //spriteBatch.Draw(texture, new Rectangle(400, 50, 100, 100), null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+
+       
+
         public void drawIsometricGridSystem(MapInfoObject mapInfo, Camera2d camera, GraphicsDeviceManager graphics)
         {
+
             barriersList.Clear();
             spriteBatch.Begin();
             for (int i = 0; i < mapInfo.gridSizeX; ++i)
@@ -52,9 +57,20 @@ namespace monoGameCP
                 for (int j = 0; j < mapInfo.gridSizeY; ++j)
                 {
 
-                    var isotileX = (j - i) * mapInfo.tileSize / 2;
-                    var isotileY = (j + i) * mapInfo.tileSize / 2;
-                    Vector2 transformedV = Vector2.Transform(new Vector2(isotileX, isotileY), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
+                    //  tempPt.x = pt.x - pt.y;
+                    //tempPt.y = (pt.x + pt.y) / 2;
+                    //var x=j*mapInfo.tileSize/2;
+                    //var y=i*mapInfo.tileSize/2;
+                    
+                    var x = j*mapInfo.tileSize;
+                    var y = i*mapInfo.tileSize;
+                    
+                    //var isotileX = x - y;
+                    //var isotileY = (x+y) / 2;
+                    //var isotileX = (x - y) * mapInfo.tileSize / 2;
+                    //var isotileY = (x + y) * mapInfo.tileSize / 2;
+                    Vector2 isoPt=TwoDToIso(new Vector2(x,y));
+                    Vector2 transformedV = Vector2.Transform(new Vector2(isoPt.X, isoPt.Y), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
                     var tile = new Rectangle((int)transformedV.X, (int)transformedV.Y, mapInfo.tileSize, mapInfo.tileSize);
 
                     TileObject tile2 = new TileObject();
@@ -63,16 +79,9 @@ namespace monoGameCP
                     barriersList.Add(tile2);
                     DrawBorder(tile, 2, Color.Red);
                     var positionsLabel = "(" + tile2.Rectangle.X + ":" + tile2.Rectangle.Y + ")";
-                    if (gridMapType == GridMapType.Default)
-                    {
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White);
-                    }
-                    if (gridMapType == GridMapType.Isometric)
-                    {
-                        //DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
 
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White, MathHelper.PiOver4, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
-                    }
+                    spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0);
+
 
                 }
             }
@@ -88,23 +97,16 @@ namespace monoGameCP
                 for (int j = 0; j < mapInfo.gridSizeY; ++j)
                 {
                     Vector2 transformedV = Vector2.Transform(new Vector2(j * mapInfo.tileSize, i * mapInfo.tileSize), Matrix.Invert(camera.get_transformation(graphics.GraphicsDevice)));
-                    var tile = new Rectangle((int)transformedV.X, (int)transformedV.Y, mapInfo.tileSize,mapInfo.tileSize);
+                    var tile = new Rectangle((int)transformedV.X, (int)transformedV.Y, mapInfo.tileSize, mapInfo.tileSize);
                     TileObject tile2 = new TileObject();
                     tile2.Rectangle = tile;
                     tile2.isGreen = false;
                     barriersList.Add(tile2);
                     DrawBorder(tile, 2, Color.Red);
                     var positionsLabel = "(" + tile2.Rectangle.X + ":" + tile2.Rectangle.Y + ")";
-                    if (gridMapType == GridMapType.Default)
-                    {
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White);
-                    }
-                    if (gridMapType == GridMapType.Isometric)
-                    {
-                        //DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
 
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White, MathHelper.PiOver4, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
-                    }
+                    spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(tile2.Rectangle.X, tile2.Rectangle.Y), Color.White);
+
 
                 }
             }
@@ -114,7 +116,7 @@ namespace monoGameCP
         private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
             // Draw top line
-            //spriteBatch.Draw(texture, new Rectangle(400, 50, 100, 100), null, Color.Red, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+            //spriteBatch.Draw(texture, new Rectangle(400, 50, 100, 100), null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
             if (gridMapType == GridMapType.Default)
             {
                 spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
@@ -135,21 +137,21 @@ namespace monoGameCP
             }
             if (gridMapType == GridMapType.Isometric)
             {
-                spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), null, borderColor, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
 
                 // Draw left line
-                spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
 
                 // Draw right line
                 spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
                                                 rectangleToDraw.Y,
                                                 thicknessOfBorder,
-                                                rectangleToDraw.Height), null, borderColor, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                                                rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
                 // Draw bottom line
                 spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
                                                 rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
                                                 rectangleToDraw.Width,
-                                                thicknessOfBorder), null, borderColor, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                                                thicknessOfBorder), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
 
             }
 
@@ -158,9 +160,18 @@ namespace monoGameCP
         {
             foreach (TileObject rect in barriersList)
             {
+                bool isHit = false;
+                if (gridMapType == GridMapType.Default)
+                {
+                    isHit = rect.Rectangle.Contains(worldPosition);
+                }
+                if (gridMapType == GridMapType.Isometric)
+                {
 
-
-                if (rect.Rectangle.Contains(worldPosition))
+                     isHit = rect.Rectangle.Contains(worldPosition);
+                 
+                }
+                if (isHit)
                 {
 
                     //spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
@@ -169,23 +180,40 @@ namespace monoGameCP
                     System.Console.WriteLine("Hit");
                     Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
                     texture.SetData<Color>(new Color[] { Color.White });
+
+
+
                     rect.texture = selectedTexture;
                     rect.texturePath = selectedTexturePath;
                     rect.isGreen = true;
 
+
                     if (gridMapType == GridMapType.Default)
                     {
+
                         spriteBatch.Draw(texture, rect.Rectangle, Color.Green);
                     }
                     if (gridMapType == GridMapType.Isometric)
                     {
-                        spriteBatch.Draw(texture, rect.Rectangle, null, Color.Green, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                        spriteBatch.Draw(texture, rect.Rectangle, null, Color.Green, 0, Vector2.Zero, SpriteEffects.None, 0);
                     }
                     //    spriteBatch.End();
                 }
             }
 
         }
+
+
+        public Vector2 TwoDToIso(Vector2 pt){
+            var tempPt=new Vector2(0,0);
+            tempPt.X=(pt.X-pt.Y);
+            tempPt.Y=(pt.X+pt.Y)/2;
+            return tempPt;
+
+        }
+        
+
+
         public void updateGridSystem(Texture2D selectedTexture, Camera2d camera)
         {
             //spriteBatch.Begin();
@@ -202,11 +230,14 @@ namespace monoGameCP
                         {
                             if (gridMapType == GridMapType.Default)
                             {
-                                spriteBatch.Draw(rect.texture, rect.Rectangle, Color.Green);
+
+
+                                spriteBatch.Draw(rect.texture, rect.Rectangle, Color.White);
                             }
                             if (gridMapType == GridMapType.Isometric)
                             {
-                                spriteBatch.Draw(rect.texture, rect.Rectangle, null, Color.Green, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                                if(rect.isRotated){}
+                                spriteBatch.Draw(rect.texture, rect.Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
                             }
 
                         }
@@ -222,7 +253,7 @@ namespace monoGameCP
                         }
                         if (gridMapType == GridMapType.Isometric)
                         {
-                            spriteBatch.Draw(texture, rect.Rectangle, null, Color.Green, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
+                            spriteBatch.Draw(texture, rect.Rectangle, null, Color.Green, 0, Vector2.Zero, SpriteEffects.None, 0);
                         }
                         Vector2 worldPos = Vector2.Transform(new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Matrix.Invert(camera._transform));
                         var positionsLabel = "(" + rect.Rectangle.X + ":" + rect.Rectangle.Y + ")\n(" + worldPos.X + ":" + worldPos.Y + ")";
@@ -235,7 +266,7 @@ namespace monoGameCP
                         {
 
 
-                            spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White, MathHelper.PiOver4, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
+                            spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0);
                         }
 
                     }
@@ -254,7 +285,7 @@ namespace monoGameCP
                     {
 
 
-                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White, MathHelper.PiOver4, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(verdana36, positionsLabel, new Vector2(rect.Rectangle.X, rect.Rectangle.Y), Color.White, 0, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
                     }
                 }
 
