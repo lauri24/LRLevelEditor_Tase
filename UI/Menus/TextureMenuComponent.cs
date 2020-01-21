@@ -69,7 +69,7 @@ namespace ScreenManager
 
             texturePaths = Directory.EnumerateFiles(pathToContent, "*.*", SearchOption.AllDirectories)
             .Where(s => s.EndsWith(".png") || s.EndsWith(".PNG"));
-            loadTextures(100);
+            loadTextures(150);
 
 
 

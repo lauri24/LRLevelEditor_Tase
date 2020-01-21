@@ -181,7 +181,12 @@ namespace monoGameCP
             {
                 if (Desktop.DownKeys.Contains(Keys.LeftControl) || Desktop.DownKeys.Contains(Keys.RightControl))
                 {
-                    tileContextMenu.ShowContextMenu();
+                     Vector2 worldPosition = Vector2.Transform(new Vector2(Desktop.TouchPosition.X, Desktop.TouchPosition.Y), Matrix.Invert(camera._transform));
+                   TileObject tileos=gridMapManager.checkAndReturnHitTile(worldPosition);
+                    if(tileos!=null){
+                         tileContextMenu.ShowContextMenu(tileos);
+                    }
+                   
 
                 }
                 if (Desktop.DownKeys.Contains(Keys.Escape))

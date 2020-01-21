@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Reflection.Metadata;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +11,7 @@ using System.IO;
 using ScreenManager;
 using System.Collections.Generic;
 using RotatedRectangleCollisions;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 //Change namespace
 namespace monoGameCP
 {
@@ -156,6 +158,37 @@ namespace monoGameCP
             }
 
         }
+
+
+        public TileObject checkAndReturnHitTile(Vector2 worldPosition){
+           
+             bool isHit = false;
+             TileObject selectedTile=new TileObject();
+             foreach (TileObject rect in barriersList)
+            {
+               
+                if (gridMapType == GridMapType.Default)
+                {
+                    isHit = rect.Rectangle.Contains(worldPosition);
+                }
+                if (gridMapType == GridMapType.Isometric)
+                {
+
+                     isHit = rect.Rectangle.Contains(worldPosition);
+
+                }
+                if(isHit){
+                    selectedTile=rect;
+                    break;
+                }
+            }
+            if(isHit){
+                return selectedTile;
+            }else{
+                 return null;
+            }
+           
+        }
         public void checkAndHighlightSelectedTile(Vector2 worldPosition, Texture2D selectedTexture, string selectedTexturePath)
         {
             foreach (TileObject rect in barriersList)
@@ -236,8 +269,20 @@ namespace monoGameCP
                             }
                             if (gridMapType == GridMapType.Isometric)
                             {
-                                if(rect.isRotated){}
-                                spriteBatch.Draw(rect.texture, rect.Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                                if(rect.isRotated){
+                                    
+                               Vector2 origin = new Vector2(rect.texture.Width / 2 , rect.texture.Height / 2 );
+                                Rectangle rectangle=new Rectangle();
+                                rectangle=rect.Rectangle;
+                                rectangle.X += rect.Rectangle.Width/2;
+                                rectangle.Y += rect.Rectangle.Height / 2;
+ 
+                                    spriteBatch.Draw(rect.texture, rectangle, null, Color.White,rect.rotationAngle,origin, SpriteEffects.None, 1);
+
+                                }else{
+                                  spriteBatch.Draw(rect.texture, rect.Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                                }
+                                
                             }
 
                         }

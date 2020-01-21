@@ -2,6 +2,7 @@
 
 
 
+using System;
 using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,7 @@ namespace ScreenManager
             this.camera=cameraIn;
             this.game = gameIn;
         }
-        public void ShowContextMenu()
+        public void ShowContextMenu(TileObject tile)
         {
             if (Desktop.ContextMenu != null)
             {
@@ -74,6 +75,22 @@ namespace ScreenManager
 
             };
 
+            var rotateAction = new MenuItem();
+           rotateAction.Text = "Rotate";
+           rotateAction.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                //  mapMenuComponent.ShowGridResizingMenu();
+                tile.isRotated=true;
+               if( tile.rotationAngle==MathHelper.Pi*2){
+                   tile.rotationAngle=0;
+               }else{
+                   tile.rotationAngle+=MathHelper.PiOver2;
+               }
+
+            };
+
+
             var menuItem2 = new MenuItem();
             menuItem2.Text = "Options";
 
@@ -86,6 +103,7 @@ namespace ScreenManager
                 verticalMenu.Items.Add(menuItem1);
                 verticalMenu.Items.Add(menuItem2);
                 verticalMenu.Items.Add(menuItem3);
+                verticalMenu.Items.Add(rotateAction);
             }
             else
             {
