@@ -97,11 +97,66 @@ namespace ScreenManager
             _menuFile.Items.Add(menuItem2);
             _menuFile.Items.Add(menuItem3);
             _menuFile.Items.Add(menuItem4);
+
+
+             var layer1 = new MenuItem();
+			layer1.Id = "0_layer";
+			layer1.Text = "0";
+            layer1.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                this.game.currentLayerDepthLevel=0.0f;
+                
+            };
+
+              var layer2 = new MenuItem();
+			layer2.Id = "1_layer";
+			layer2.Text = "1 Layer";
+            layer2.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                  this.game.currentLayerDepthLevel=0.1f;
+                
+            };
+              var layer3 = new MenuItem();
+			layer3.Id = "2_layer";
+			layer3.Text = "2 Layer";
+            layer3.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                  this.game.currentLayerDepthLevel=0.2f;
+                
+            };
+              var layer4 = new MenuItem();
+			layer4.Id = "3_layer";
+			layer4.Text = "3 Layer";
+            layer4.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                  this.game.currentLayerDepthLevel=0.3f;
+                
+                
+            };
+
+
+
+
+            var _menuFileLayer = new MenuItem();
+			_menuFileLayer.Id = "_LayerDepth";
+			_menuFileLayer.Text = "&Layer Depth";
+            _menuFileLayer.Items.Add(layer1);
+            _menuFileLayer.Items.Add(layer2);
+            _menuFileLayer.Items.Add(layer3);
+            _menuFileLayer.Items.Add(layer4);
+    
+    
+    
+    
             var _menuEdit = new MenuItem();
 			_menuEdit.Id = "_menuEdit";
 			_menuEdit.Text = "&Edit";
 
-
+    
 
              var _menuMapType = new MenuItem();
 			_menuMapType.Id = "_menuMapType";
@@ -209,6 +264,7 @@ namespace ScreenManager
 			_mainMenu.Items.Add(_menuHelp);
             _mainMenu.Items.Add(_menuZoom);
             _mainMenu.Items.Add(_menuMapType);
+            _mainMenu.Items.Add(_menuFileLayer);
             Desktop.Widgets.Add(_mainMenu);
             Desktop.ShowContextMenu(container,new Point(0,0));
            // Desktop.Widgets.Add(horizontalStackPanel1);

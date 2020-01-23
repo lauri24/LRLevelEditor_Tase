@@ -42,6 +42,7 @@ namespace monoGameCP
     {
 
         private Rectangle rectangle;
+        public float layerDepth;
         public bool isGreen;
         public string label_text;
         public string texturePath;
@@ -57,6 +58,21 @@ namespace monoGameCP
 
         public TileObject()
         {
+            layerDepth=0.0f;
+        }
+        public TileObject(TileObject data){
+
+            this.rectangle=data.rectangle;
+            this.layerDepth=data.layerDepth;
+            this.isGreen=data.isGreen;
+            this.label_text=data.label_text;
+            this.texturePath=data.texturePath;
+            this.isRotated=data.isRotated;
+            this.rotationAngle=data.rotationAngle;
+            this.isCollidable=data.isCollidable;
+            this.isTextureAdded=data.isTextureAdded;
+            this.texture=data.texture;
+            this.Rectangle=data.Rectangle;
 
         }
 
@@ -77,7 +93,7 @@ namespace monoGameCP
         string selectedTexturePath;
         LevelStore store;
         Camera2d camera;
-
+        public float currentLayerDepthLevel=0.0f;
         ContextMenuComponent tileContextMenu;
         MenuComponent menuComponent;
         TextureMenuComponent textureMenuComponent;
@@ -88,6 +104,8 @@ namespace monoGameCP
         public EditorMenuState editorMenuState;
         public bool isMenuEnabled;
         Texture2D selectedTexture;
+
+        TileObject selectedTile;
         public bool isTextureMenuEnabled;
         public bool isMapMenuEnabled;
         GridMapManager gridMapManager;
@@ -182,7 +200,7 @@ namespace monoGameCP
                 if (Desktop.DownKeys.Contains(Keys.LeftControl) || Desktop.DownKeys.Contains(Keys.RightControl))
                 {
                      Vector2 worldPosition = Vector2.Transform(new Vector2(Desktop.TouchPosition.X, Desktop.TouchPosition.Y), Matrix.Invert(camera._transform));
-                   TileObject tileos=gridMapManager.checkAndReturnHitTile(worldPosition);
+                     TileObject tileos=gridMapManager.checkAndReturnHitTile(worldPosition);
                     if(tileos!=null){
                          tileContextMenu.ShowContextMenu(tileos);
                     }
@@ -256,7 +274,7 @@ namespace monoGameCP
             gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             barriersList = jsonLevel;
             gridMapManager.barriersList=barriersList;
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
             gridMapManager.updateGridSystem(selectedTexture, camera);
             spriteBatch.End();
             editorMenuState=EditorMenuState.Editor;
@@ -271,6 +289,7 @@ namespace monoGameCP
         {
             bool didHitTile = false;
             Vector2 worldPosition = Vector2.Transform(new Vector2(mouseX, mouseY), Matrix.Invert(camera._transform));
+         
             foreach (TileObject rect in barriersList)
             {
 
@@ -281,11 +300,14 @@ namespace monoGameCP
                     //spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend,null,null,null,null,camera.get_transformation(graphics.GraphicsDevice));
                     //   spriteBatch.Begin();
                     // System.Console.WriteLine("Hit rect at {0} {1}",mouseState.X,mouseState.Y);
-                    didHitTile = true;
+                    if(rect.layerDepth==currentLayerDepthLevel){
+                         didHitTile = true;
+                    }
+                   
                     //    spriteBatch.End();
                 }
             }
-
+          
             return didHitTile;
 
         }
@@ -408,7 +430,7 @@ namespace monoGameCP
 
 
             //Vector2 worldPosition = Vector2.Transform(mousePosition, Matrix.Invert(viewMatrix));
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.get_transformation(graphics.GraphicsDevice));
             //      spriteBatch.End();
             //  camera.Zoom = 0.5f;
             // camera.Move(new Vector2(500.0f,200.0f));

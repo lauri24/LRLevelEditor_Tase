@@ -66,12 +66,12 @@ namespace ScreenManager
             container.Widgets.Add(titleContainer);
 
             var menuItem1 = new MenuItem();
-            menuItem1.Text = "Action grid";
+            menuItem1.Text = "Change levelDepth";
             menuItem1.Selected += (s, a) =>
             {
                 // "Start New Game" selected
                 //  mapMenuComponent.ShowGridResizingMenu();
-
+                
 
             };
 
