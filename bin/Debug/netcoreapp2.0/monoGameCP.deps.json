@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "caa63e6276a2179adbb7bc1a74cacc5f8e41dba6"
+    "signature": "e3c897f1671e195afc5995cda6b3c120c39e3fb2"
   },
   "compilationOptions": {},
   "targets": {
@@ -15,7 +15,7 @@
           "MonoGame.Extended.Gui": "3.7.0",
           "MonoGame.Extended.NuclexGui": "3.7.0",
           "MonoGame.Framework.DesktopGL.Core": "3.7.0.7",
-          "Myra": "0.9.7.185",
+          "Myra": "0.9.8.194",
           "Newtonsoft.Json": "12.0.3",
           "System.IO.FileSystem": "4.3.0"
         },
@@ -49,6 +49,11 @@
             "rid": "win-x86",
             "assetType": "native"
           }
+        }
+      },
+      "info.lundin.math.dll/1.2.6": {
+        "runtime": {
+          "lib/netstandard2.0/info.lundin.math.dll": {}
         }
       },
       "Microsoft.NETCore.Targets/1.1.0": {},
@@ -142,7 +147,11 @@
           }
         }
       },
-      "Myra/0.9.7.185": {
+      "Myra/0.9.8.194": {
+        "dependencies": {
+          "StbImageSharp": "2.22.2",
+          "info.lundin.math.dll": "1.2.6"
+        },
         "runtime": {
           "lib/netstandard2.0/Myra.dll": {}
         }
@@ -150,6 +159,11 @@
       "Newtonsoft.Json/12.0.3": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "StbImageSharp/2.22.2": {
+        "runtime": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
         }
       },
       "System.Buffers/4.4.0": {},
@@ -221,6 +235,13 @@
       "path": "imgui.net/1.72.0",
       "hashPath": "imgui.net.1.72.0.nupkg.sha512"
     },
+    "info.lundin.math.dll/1.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/EglyMqqnpcXN54M/cl0lTgA31dg5e0uDNyANfYVsnuE4yvoC7/m27T0QozlKytu2pgys7SJj1blV+bFgiaimg==",
+      "path": "info.lundin.math.dll/1.2.6",
+      "hashPath": "info.lundin.math.dll.1.2.6.nupkg.sha512"
+    },
     "Microsoft.NETCore.Targets/1.1.0": {
       "type": "package",
       "serviceable": true,
@@ -277,12 +298,12 @@
       "path": "monogame.framework.desktopgl.core/3.7.0.7",
       "hashPath": "monogame.framework.desktopgl.core.3.7.0.7.nupkg.sha512"
     },
-    "Myra/0.9.7.185": {
+    "Myra/0.9.8.194": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-6Yg1hXktukEt7gcOl/TgkfHl3KSNqMfguiIOJ56LgrX5VaWx6KSzpbhg64ZU/4gLmWM6PXh+xRa8CxlXUortLg==",
-      "path": "myra/0.9.7.185",
-      "hashPath": "myra.0.9.7.185.nupkg.sha512"
+      "sha512": "sha512-f40Eva9iqb8JgqOkqe/c0XelYKfRC6TtUScuNwntB7ds7eKEjUQAApyVmj5mUpc7ZYoXEircaKwGiWMwQu2zbw==",
+      "path": "myra/0.9.8.194",
+      "hashPath": "myra.0.9.8.194.nupkg.sha512"
     },
     "Newtonsoft.Json/12.0.3": {
       "type": "package",
@@ -290,6 +311,13 @@
       "sha512": "sha512-aTRmXwR5xYu+mWxE8r8W1DWnL02SeV8LwdQMsLwTWP8OZgrCCyTqvOAe5hRb1VNQYXjln7qr0PKpSyO/pcc19Q==",
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "StbImageSharp/2.22.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yAChMsvs8qyv+L793R61ip64uFvBWGAmOk794E63MC+S3Qiwoj3FroZJ8Qx3+lBLkaWH3MR9fCDnCEzPncEiYg==",
+      "path": "stbimagesharp/2.22.2",
+      "hashPath": "stbimagesharp.2.22.2.nupkg.sha512"
     },
     "System.Buffers/4.4.0": {
       "type": "package",

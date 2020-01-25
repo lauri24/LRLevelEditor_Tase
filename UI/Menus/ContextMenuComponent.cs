@@ -52,8 +52,7 @@ namespace ScreenManager
 
             var titleContainer = new Panel
             {
-                Background = DefaultAssets.UISpritesheet["button"],
-                Border = DefaultAssets.UISpritesheet["border"]
+                 Background = DefaultAssets.UITextureRegionAtlas["button"],
             };
 
             var titleLabel = new Label

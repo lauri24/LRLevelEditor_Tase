@@ -34,6 +34,15 @@
           }
         }
       },
+      "info.lundin.math.dll/1.2.6": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/info.lundin.math.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/info.lundin.math.dll": {}
+        }
+      },
       "Microsoft.NETCore.App/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -345,8 +354,12 @@
           }
         }
       },
-      "Myra/0.9.7.185": {
+      "Myra/0.9.8.194": {
         "type": "package",
+        "dependencies": {
+          "StbImageSharp": "2.22.2",
+          "info.lundin.math.dll": "1.2.6"
+        },
         "compile": {
           "lib/netstandard2.0/Myra.dll": {}
         },
@@ -376,6 +389,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "StbImageSharp/2.22.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
         }
       },
       "System.Buffers/4.4.0": {
@@ -507,6 +529,18 @@
         "runtimes/osx-x64/native/libcimgui.dylib",
         "runtimes/win-x64/native/cimgui.dll",
         "runtimes/win-x86/native/cimgui.dll"
+      ]
+    },
+    "info.lundin.math.dll/1.2.6": {
+      "sha512": "/EglyMqqnpcXN54M/cl0lTgA31dg5e0uDNyANfYVsnuE4yvoC7/m27T0QozlKytu2pgys7SJj1blV+bFgiaimg==",
+      "type": "package",
+      "path": "info.lundin.math.dll/1.2.6",
+      "files": [
+        ".signature.p7s",
+        "info.lundin.math.dll.1.2.6.nupkg.sha512",
+        "info.lundin.math.dll.nuspec",
+        "lib/net40/info.lundin.math.dll",
+        "lib/netstandard2.0/info.lundin.math.dll"
       ]
     },
     "Microsoft.NETCore.App/2.0.0": {
@@ -942,15 +976,15 @@
         "runtimes/win-x86/native/libopenal.dll"
       ]
     },
-    "Myra/0.9.7.185": {
-      "sha512": "6Yg1hXktukEt7gcOl/TgkfHl3KSNqMfguiIOJ56LgrX5VaWx6KSzpbhg64ZU/4gLmWM6PXh+xRa8CxlXUortLg==",
+    "Myra/0.9.8.194": {
+      "sha512": "f40Eva9iqb8JgqOkqe/c0XelYKfRC6TtUScuNwntB7ds7eKEjUQAApyVmj5mUpc7ZYoXEircaKwGiWMwQu2zbw==",
       "type": "package",
-      "path": "myra/0.9.7.185",
+      "path": "myra/0.9.8.194",
       "files": [
         ".signature.p7s",
         "lib/net45/Myra.dll",
         "lib/netstandard2.0/Myra.dll",
-        "myra.0.9.7.185.nupkg.sha512",
+        "myra.0.9.8.194.nupkg.sha512",
         "myra.nuspec"
       ]
     },
@@ -1110,6 +1144,18 @@
         "newtonsoft.json.12.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
+      ]
+    },
+    "StbImageSharp/2.22.2": {
+      "sha512": "yAChMsvs8qyv+L793R61ip64uFvBWGAmOk794E63MC+S3Qiwoj3FroZJ8Qx3+lBLkaWH3MR9fCDnCEzPncEiYg==",
+      "type": "package",
+      "path": "stbimagesharp/2.22.2",
+      "files": [
+        ".signature.p7s",
+        "lib/net45/StbImageSharp.dll",
+        "lib/netstandard2.0/StbImageSharp.dll",
+        "stbimagesharp.2.22.2.nupkg.sha512",
+        "stbimagesharp.nuspec"
       ]
     },
     "System.Buffers/4.4.0": {
@@ -1618,7 +1664,7 @@
       "MonoGame.Extended.Gui >= 3.7.0",
       "MonoGame.Extended.NuclexGui >= 3.7.0",
       "MonoGame.Framework.DesktopGL.Core >= 3.7.0.7",
-      "Myra >= 0.9.7.185",
+      "Myra >= 0.9.8.194",
       "Newtonsoft.Json >= 12.0.3",
       "System.IO.FileSystem >= 4.3.0"
     ]
@@ -1703,7 +1749,7 @@
           },
           "Myra": {
             "target": "Package",
-            "version": "[0.9.7.185, )"
+            "version": "[0.9.8.194, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",
