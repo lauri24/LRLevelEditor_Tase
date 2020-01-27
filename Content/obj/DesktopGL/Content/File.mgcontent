@@ -3,7 +3,11 @@
   <SourceFile>c:/Users/Lowry/monoGameCP/Content/File.spritefont</SourceFile>
   <SourceTime>2020-01-09T22:13:23.4121362+02:00</SourceTime>
   <DestFile>c:/Users/Lowry/monoGameCP/Content/bin/DesktopGL/Content/File.xnb</DestFile>
+<<<<<<< HEAD
   <DestTime>2020-01-09T22:24:05.2723851+02:00</DestTime>
+=======
+  <DestTime>2020-01-10T20:13:59.9031216+02:00</DestTime>
+>>>>>>> menu_feature
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2018-08-05T14:17:44+03:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

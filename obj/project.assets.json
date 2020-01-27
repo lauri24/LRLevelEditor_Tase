@@ -2,6 +2,47 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "ImGui.NET/1.72.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.4.0",
+          "System.Numerics.Vectors": "4.4.0",
+          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ImGui.NET.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ImGui.NET.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libcimgui.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-x64/native/libcimgui.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/cimgui.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/cimgui.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
+      "info.lundin.math.dll/1.2.6": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/info.lundin.math.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/info.lundin.math.dll": {}
+        }
+      },
       "Microsoft.NETCore.App/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -197,6 +238,68 @@
           "build/MonoGame.Content.Builder.targets": {}
         }
       },
+      "MonoGame.Extended/3.7.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.dll": {}
+        }
+      },
+      "MonoGame.Extended.Graphics/3.7.0": {
+        "type": "package",
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Extended.Graphics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Graphics.dll": {}
+        }
+      },
+      "MonoGame.Extended.Gui/3.7.0": {
+        "type": "package",
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0",
+          "MonoGame.Extended.Input": "3.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Extended.Gui.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Gui.dll": {}
+        }
+      },
+      "MonoGame.Extended.Input/3.7.0": {
+        "type": "package",
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Extended.Input.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.Input.dll": {}
+        }
+      },
+      "MonoGame.Extended.NuclexGui/3.7.0": {
+        "type": "package",
+        "dependencies": {
+          "MonoGame.Extended": "3.7.0",
+          "MonoGame.Extended.Input": "3.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Extended.NuclexGui.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Extended.NuclexGui.dll": {}
+        }
+      },
       "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
         "type": "package",
         "compile": {
@@ -251,8 +354,12 @@
           }
         }
       },
-      "Myra/0.9.7.185": {
+      "Myra/0.9.8.194": {
         "type": "package",
+        "dependencies": {
+          "StbImageSharp": "2.22.2",
+          "info.lundin.math.dll": "1.2.6"
+        },
         "compile": {
           "lib/netstandard2.0/Myra.dll": {}
         },
@@ -282,6 +389,24 @@
         },
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "StbImageSharp/2.22.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/StbImageSharp.dll": {}
+        }
+      },
+      "System.Buffers/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "System.IO/4.3.0": {
@@ -325,6 +450,15 @@
           "lib/netstandard1.3/System.IO.FileSystem.Primitives.dll": {}
         }
       },
+      "System.Numerics.Vectors/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
       "System.Runtime/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -333,6 +467,15 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Runtime.dll": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         }
       },
       "System.Runtime.Handles/4.3.0": {
@@ -371,6 +514,35 @@
     }
   },
   "libraries": {
+    "ImGui.NET/1.72.0": {
+      "sha512": "mYUUVFfR/eWaifR7URA27xt6NNL8jDIPy15TxsArmBeWvnLzECQy2xxcjR2j3/COHcB/9G8oo8vGy6b7a0ykpg==",
+      "type": "package",
+      "path": "imgui.net/1.72.0",
+      "files": [
+        ".signature.p7s",
+        "build/net40/ImGui.NET.targets",
+        "imgui.net.1.72.0.nupkg.sha512",
+        "imgui.net.nuspec",
+        "lib/netstandard2.0/ImGui.NET.dll",
+        "lib/netstandard2.0/ImGui.NET.xml",
+        "runtimes/linux-x64/native/libcimgui.so",
+        "runtimes/osx-x64/native/libcimgui.dylib",
+        "runtimes/win-x64/native/cimgui.dll",
+        "runtimes/win-x86/native/cimgui.dll"
+      ]
+    },
+    "info.lundin.math.dll/1.2.6": {
+      "sha512": "/EglyMqqnpcXN54M/cl0lTgA31dg5e0uDNyANfYVsnuE4yvoC7/m27T0QozlKytu2pgys7SJj1blV+bFgiaimg==",
+      "type": "package",
+      "path": "info.lundin.math.dll/1.2.6",
+      "files": [
+        ".signature.p7s",
+        "info.lundin.math.dll.1.2.6.nupkg.sha512",
+        "info.lundin.math.dll.nuspec",
+        "lib/net40/info.lundin.math.dll",
+        "lib/netstandard2.0/info.lundin.math.dll"
+      ]
+    },
     "Microsoft.NETCore.App/2.0.0": {
       "sha512": "/mzXF+UtZef+VpzzN88EpvFq5U6z4rj54ZMq/J968H6pcvyLOmcupmTRpJ3CJm8ILoCGh9WI7qpDdiKtuzswrQ==",
       "type": "package",
@@ -726,6 +898,61 @@
         "tasks/netstandard2.0/MonoGame.Content.Builder.dll"
       ]
     },
+    "MonoGame.Extended/3.7.0": {
+      "sha512": "Qmf/T7yw4SZOgsir2/oPDR0jnbqRZUkBVjWgMTyDAk9hNF16VgM443Igy1X7XVfmDH4mmYifYdvKZpyBDeGO8Q==",
+      "type": "package",
+      "path": "monogame.extended/3.7.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/MonoGame.Extended.dll",
+        "monogame.extended.3.7.0.nupkg.sha512",
+        "monogame.extended.nuspec"
+      ]
+    },
+    "MonoGame.Extended.Graphics/3.7.0": {
+      "sha512": "WA9vFjslssAvp9PCg/Rd7jMVxX1VyQVr3wF8b/mYssMeN41nlLGddSmemEoqWrzHXvhnzqU2MhVXddPAdyiAqw==",
+      "type": "package",
+      "path": "monogame.extended.graphics/3.7.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/MonoGame.Extended.Graphics.dll",
+        "monogame.extended.graphics.3.7.0.nupkg.sha512",
+        "monogame.extended.graphics.nuspec"
+      ]
+    },
+    "MonoGame.Extended.Gui/3.7.0": {
+      "sha512": "RvDIbQzFGHlt30+FvBDFSD9YUe2pzBYF617T55m5vkIHch0A8XZbjU40PTFM7rjHoIXmGQgIG+OTy1GSWdLnNg==",
+      "type": "package",
+      "path": "monogame.extended.gui/3.7.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/MonoGame.Extended.Gui.dll",
+        "monogame.extended.gui.3.7.0.nupkg.sha512",
+        "monogame.extended.gui.nuspec"
+      ]
+    },
+    "MonoGame.Extended.Input/3.7.0": {
+      "sha512": "LT7pRjVzuAGn3NiL9H8oTdvloyT8ljai7HE+gC1vMxgKo30qhF1PbsVDpTPDxBrLfvTlia8Z/rFpKmrT1xVu2w==",
+      "type": "package",
+      "path": "monogame.extended.input/3.7.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/MonoGame.Extended.Input.dll",
+        "monogame.extended.input.3.7.0.nupkg.sha512",
+        "monogame.extended.input.nuspec"
+      ]
+    },
+    "MonoGame.Extended.NuclexGui/3.7.0": {
+      "sha512": "Su8wKVKo+uyEoJ9suYF39deSXFzAtJCBl6FHlPELlSvyZjToOx0lCzmt+Hf67bzjdPB/4daJAYODfcg4JbWqpg==",
+      "type": "package",
+      "path": "monogame.extended.nuclexgui/3.7.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/MonoGame.Extended.NuclexGui.dll",
+        "monogame.extended.nuclexgui.3.7.0.nupkg.sha512",
+        "monogame.extended.nuclexgui.nuspec"
+      ]
+    },
     "MonoGame.Framework.DesktopGL.Core/3.7.0.7": {
       "sha512": "juPb6yv+N362liHMbYQavmlhLzufpGGvNQqcpDGEs4BzRiycBXXjhZjCwpUekx0ozLfQ+kjirnuA3/M2lc4tMQ==",
       "type": "package",
@@ -749,15 +976,15 @@
         "runtimes/win-x86/native/libopenal.dll"
       ]
     },
-    "Myra/0.9.7.185": {
-      "sha512": "6Yg1hXktukEt7gcOl/TgkfHl3KSNqMfguiIOJ56LgrX5VaWx6KSzpbhg64ZU/4gLmWM6PXh+xRa8CxlXUortLg==",
+    "Myra/0.9.8.194": {
+      "sha512": "f40Eva9iqb8JgqOkqe/c0XelYKfRC6TtUScuNwntB7ds7eKEjUQAApyVmj5mUpc7ZYoXEircaKwGiWMwQu2zbw==",
       "type": "package",
-      "path": "myra/0.9.7.185",
+      "path": "myra/0.9.8.194",
       "files": [
         ".signature.p7s",
         "lib/net45/Myra.dll",
         "lib/netstandard2.0/Myra.dll",
-        "myra.0.9.7.185.nupkg.sha512",
+        "myra.0.9.8.194.nupkg.sha512",
         "myra.nuspec"
       ]
     },
@@ -919,6 +1146,41 @@
         "packageIcon.png"
       ]
     },
+    "StbImageSharp/2.22.2": {
+      "sha512": "yAChMsvs8qyv+L793R61ip64uFvBWGAmOk794E63MC+S3Qiwoj3FroZJ8Qx3+lBLkaWH3MR9fCDnCEzPncEiYg==",
+      "type": "package",
+      "path": "stbimagesharp/2.22.2",
+      "files": [
+        ".signature.p7s",
+        "lib/net45/StbImageSharp.dll",
+        "lib/netstandard2.0/StbImageSharp.dll",
+        "stbimagesharp.2.22.2.nupkg.sha512",
+        "stbimagesharp.nuspec"
+      ]
+    },
+    "System.Buffers/4.4.0": {
+      "sha512": "AwarXzzoDwX6BgrhjoJsk6tUezZEozOT5Y9QKF94Gl4JK91I4PIIBkBco9068Y9/Dra8Dkbie99kXB8+1BaYKw==",
+      "type": "package",
+      "path": "system.buffers/4.4.0",
+      "files": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.1/System.Buffers.dll",
+        "lib/netstandard1.1/System.Buffers.xml",
+        "lib/netstandard2.0/System.Buffers.dll",
+        "lib/netstandard2.0/System.Buffers.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.1/System.Buffers.dll",
+        "ref/netstandard1.1/System.Buffers.xml",
+        "ref/netstandard2.0/System.Buffers.dll",
+        "ref/netstandard2.0/System.Buffers.xml",
+        "system.buffers.4.4.0.nupkg.sha512",
+        "system.buffers.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.IO/4.3.0": {
       "sha512": "ho8EKM7sNocbqrcWm2ogNpFHnpbwoIbQf8o3oI6lz7REjc+CUkPlQ5cT+mXak2KKmSyEDv71bHwAH+HCY+MZew==",
       "type": "package",
@@ -1071,6 +1333,47 @@
         "system.io.filesystem.primitives.nuspec"
       ]
     },
+    "System.Numerics.Vectors/4.4.0": {
+      "sha512": "UiLzLW+Lw6HLed1Hcg+8jSRttrbuXv7DANVj0DkL9g6EnnzbL75EB7EWsw5uRbhxd/4YdG8li5XizGWepmG3PQ==",
+      "type": "package",
+      "path": "system.numerics.vectors/4.4.0",
+      "files": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Numerics.Vectors.dll",
+        "lib/net46/System.Numerics.Vectors.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.Numerics.Vectors.dll",
+        "lib/netstandard1.0/System.Numerics.Vectors.xml",
+        "lib/netstandard2.0/System.Numerics.Vectors.dll",
+        "lib/netstandard2.0/System.Numerics.Vectors.xml",
+        "lib/portable-net45+win8+wp8+wpa81/System.Numerics.Vectors.dll",
+        "lib/portable-net45+win8+wp8+wpa81/System.Numerics.Vectors.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Numerics.Vectors.dll",
+        "ref/net46/System.Numerics.Vectors.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.0/System.Numerics.Vectors.dll",
+        "ref/netstandard1.0/System.Numerics.Vectors.xml",
+        "ref/netstandard2.0/System.Numerics.Vectors.dll",
+        "ref/netstandard2.0/System.Numerics.Vectors.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.numerics.vectors.4.4.0.nupkg.sha512",
+        "system.numerics.vectors.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Runtime/4.3.0": {
       "sha512": "LqqjqCn6TYyfYBzcpLdeJGvD+15oGl4snauMzBFH9Qt5h4VcIIeKKrIh2r6827Xg4umGEJTIwvv3wHhpdkVQNA==",
       "type": "package",
@@ -1159,6 +1462,27 @@
         "ref/xamarinwatchos10/_._",
         "system.runtime.4.3.0.nupkg.sha512",
         "system.runtime.nuspec"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+      "sha512": "9dLLuBxr5GNmOfl2jSMcsHuteEg32BEfUotmmUkmZjpR3RpVHE8YQwt0ow3p6prwA1ME8WqDVZqrr8z6H8G+Kw==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/4.4.0",
+      "files": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Runtime.Handles/4.3.0": {
@@ -1332,10 +1656,15 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "ImGui.NET >= 1.72.0",
       "Microsoft.NETCore.App >= 2.0.0",
       "MonoGame.Content.Builder >= 3.7.0.9",
+      "MonoGame.Extended >= 3.7.0",
+      "MonoGame.Extended.Graphics >= 3.7.0",
+      "MonoGame.Extended.Gui >= 3.7.0",
+      "MonoGame.Extended.NuclexGui >= 3.7.0",
       "MonoGame.Framework.DesktopGL.Core >= 3.7.0.7",
-      "Myra >= 0.9.7.185",
+      "Myra >= 0.9.8.194",
       "Newtonsoft.Json >= 12.0.3",
       "System.IO.FileSystem >= 4.3.0"
     ]
@@ -1384,6 +1713,10 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "ImGui.NET": {
+            "target": "Package",
+            "version": "[1.72.0, )"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
@@ -1394,13 +1727,29 @@
             "target": "Package",
             "version": "[3.7.0.9, )"
           },
+          "MonoGame.Extended": {
+            "target": "Package",
+            "version": "[3.7.0, )"
+          },
+          "MonoGame.Extended.Graphics": {
+            "target": "Package",
+            "version": "[3.7.0, )"
+          },
+          "MonoGame.Extended.Gui": {
+            "target": "Package",
+            "version": "[3.7.0, )"
+          },
+          "MonoGame.Extended.NuclexGui": {
+            "target": "Package",
+            "version": "[3.7.0, )"
+          },
           "MonoGame.Framework.DesktopGL.Core": {
             "target": "Package",
             "version": "[3.7.0.7, )"
           },
           "Myra": {
             "target": "Package",
-            "version": "[0.9.7.185, )"
+            "version": "[0.9.8.194, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",

@@ -2,6 +2,7 @@
 
 
 
+using System;
 using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,7 @@ using System.Reflection;
 using Myra;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.TextureAtlases;
-
+using UIMenusAndControls;
 
 namespace ScreenManager
 {
@@ -26,7 +27,7 @@ namespace ScreenManager
 
     public class ContextMenuComponent
     {
-
+        TilePropertiesWindow tilePropertiesWindow;
         Game1 game;
         Camera2d camera;
         GraphicsDevice graphicsDevice;
@@ -36,7 +37,7 @@ namespace ScreenManager
             this.camera=cameraIn;
             this.game = gameIn;
         }
-        public void ShowContextMenu()
+        public void ShowContextMenu(TileObject tile)
         {
             if (Desktop.ContextMenu != null)
             {
@@ -51,8 +52,7 @@ namespace ScreenManager
 
             var titleContainer = new Panel
             {
-                Background = DefaultAssets.UISpritesheet["button"],
-                Border = DefaultAssets.UISpritesheet["border"]
+                 Background = DefaultAssets.UITextureRegionAtlas["button"],
             };
 
             var titleLabel = new Label
@@ -65,17 +65,42 @@ namespace ScreenManager
             container.Widgets.Add(titleContainer);
 
             var menuItem1 = new MenuItem();
-            menuItem1.Text = "Action grid";
+            menuItem1.Text = "Change levelDepth";
             menuItem1.Selected += (s, a) =>
             {
                 // "Start New Game" selected
                 //  mapMenuComponent.ShowGridResizingMenu();
-
+                
 
             };
 
+            var rotateAction = new MenuItem();
+           rotateAction.Text = "Rotate";
+           rotateAction.Selected += (s, a) =>
+            {
+                // "Start New Game" selected
+                //  mapMenuComponent.ShowGridResizingMenu();
+                tile.isRotated=true;
+               if( tile.rotationAngle==MathHelper.Pi*2){
+                   tile.rotationAngle=0;
+               }else{
+                   tile.rotationAngle+=MathHelper.PiOver2;
+               }
+
+            };
+
+
             var menuItem2 = new MenuItem();
             menuItem2.Text = "Options";
+            menuItem2.Selected += (s, a) =>
+            {
+                tilePropertiesWindow=new TilePropertiesWindow(tile);
+                tilePropertiesWindow.CenterOnDesktop();
+                tilePropertiesWindow.Show();
+                // "Start New Game" selected
+            };
+
+
 
             var menuItem3 = new MenuItem();
             menuItem3.Text = "Quit";
@@ -86,6 +111,7 @@ namespace ScreenManager
                 verticalMenu.Items.Add(menuItem1);
                 verticalMenu.Items.Add(menuItem2);
                 verticalMenu.Items.Add(menuItem3);
+                verticalMenu.Items.Add(rotateAction);
             }
             else
             {

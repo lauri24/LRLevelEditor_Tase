@@ -12,72 +12,86 @@ using System.Reflection;
 
 namespace ScreenManager
 {
-    public delegate void loadedTextureToUseHandler(Texture2D texture,string pathToTexture);
+    public delegate void loadedTextureToUseHandler(Texture2D texture, string pathToTexture);
 
     public class TextureMenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
-	{
+    {
         public event loadedTextureToUseHandler textureLoadedToUse;
         IEnumerable<string> texturePaths;
-		string[] menuItems;
-		int selectedIndex;
+        string[] menuItems;
+        int selectedIndex;
         public string pathToContent;
-		Color normal = Color.White;
-		Color hilite = Color.Yellow;
+        Color normal = Color.White;
+        Color hilite = Color.Yellow;
 
-		KeyboardState keyboardState;
-		KeyboardState oldKeyboardState;
+        KeyboardState keyboardState;
+        KeyboardState oldKeyboardState;
 
-		SpriteBatch spriteBatch;
-		SpriteFont spriteFont;
+        SpriteBatch spriteBatch;
+        SpriteFont spriteFont;
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-		Vector2 position;
-		float width = 0f;
-		float height = 0f;
-
-		public int SelectedIndex
-		{
-			get { return selectedIndex; }
-			set
-			{
-				selectedIndex = value;
-				if (selectedIndex < 0)
-					selectedIndex = 0;
-				if (selectedIndex >= textures.Count)
-					selectedIndex = textures.Count - 1;
-			}
-		}
-        public void setMenuPosition(Vector2 posIn){
-            position=posIn;
-        }
-		public TextureMenuComponent(Game game, 
-			SpriteBatch spriteBatch, 
-			SpriteFont spriteFont, 
-			string[] menuItems)
-			: base(game)
-		{
-			this.spriteBatch = spriteBatch;
-			this.spriteFont = spriteFont;
-			this.menuItems = menuItems;
-			MeasureMenu();
-			
-            pathToContent=Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\Content\\Texture";
-
-            texturePaths=Directory.EnumerateFiles(pathToContent, "*.*",SearchOption.AllDirectories)
-            .Where(s => s.EndsWith(".png") || s.EndsWith(".PNG"));
-			int count=20;
-            foreach (string dir in texturePaths) 
+        Vector2 position;
+        float width = 0f;
+        float height = 0f;
+		int start=0;
+		int maxItems=20;
+		int end=20;
+        Game1 game;
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set
             {
-				if(count>0){
-                 Texture2D text=loadNotBuiltTextureFile(dir);
-                 textures.Add(dir,text);
-                 System.Console.WriteLine(dir);
-				 count--;
-				}
-            }     
-              
-              
-            
-		}
+                selectedIndex = value;
+                if (selectedIndex <= 0)
+                    selectedIndex = 0;
+                if (selectedIndex >= textures.Count)
+                    selectedIndex = textures.Count - 1;
+            }
+        }
+        public void setMenuPosition(Vector2 posIn)
+        {
+            position = posIn;
+        }
+        public TextureMenuComponent(Game1 game,
+            SpriteBatch spriteBatch,
+            SpriteFont spriteFont,
+            string[] menuItems)
+            :base(game)
+        {
+            this.spriteBatch = spriteBatch;
+            this.spriteFont = spriteFont;
+            this.menuItems = menuItems;
+            this.game=game;
+            MeasureMenu();
+            selectedIndex=0;
+            pathToContent = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\Content\\Texture";
+
+            texturePaths = Directory.EnumerateFiles(pathToContent, "*.*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith(".png") || s.EndsWith(".PNG"));
+            loadTextures(150);
+
+
+
+        }
+
+        private void loadTextures(int count){
+          
+            foreach (string dir in texturePaths)
+            {
+                if (count > 0)
+                {
+                    Texture2D text = loadNotBuiltTextureFile(dir);
+                    if(!textures.ContainsKey(dir)){
+                         textures.Add(dir, text);
+                    }
+                   
+                    System.Console.WriteLine(dir);
+                    count--;
+                }
+            }
+        }
+
         public static void SavePicture(string Filename, Texture2D TextureToSave)
         {
             FileStream setStream = File.Open(Filename, FileMode.Create);
@@ -100,100 +114,116 @@ namespace ScreenManager
                 return texture;
             }
         }*/
-        private Texture2D loadNotBuiltTextureFile(string path){
-           FileStream fileStream = new FileStream(path, FileMode.Open);
-           Texture2D spriteAtlas = Texture2D.FromStream(GraphicsDevice, fileStream);
-           fileStream.Dispose(); 
-           return spriteAtlas;
+        private Texture2D loadNotBuiltTextureFile(string path)
+        {
+            FileStream fileStream = new FileStream(path, FileMode.Open);
+            Texture2D spriteAtlas = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream.Dispose();
+            return spriteAtlas;
         }
-      
-		private void MeasureMenu()
-		{
-			height = 0;
-			width = 0;
-			foreach (string item in menuItems)
-			{
-				Vector2 size = spriteFont.MeasureString(item);
-				if (size.X > width)
-					width = size.X;
-				height += spriteFont.LineSpacing + 5;
-			}
 
-			position = new Vector2(
-               
-				(Game.Window.ClientBounds.Width - width) / 2,
-				(Game.Window.ClientBounds.Height - height) / 2);
-		}
+        private void MeasureMenu()
+        {
+            height = 0;
+            width = 0;
+            foreach (string item in menuItems)
+            {
+                Vector2 size = spriteFont.MeasureString(item);
+                if (size.X > width)
+                    width = size.X;
+                height += spriteFont.LineSpacing + 5;
+            }
 
-		public override void Initialize()
-		{
-			base.Initialize();
-		}
+            position = new Vector2(
 
-		private bool CheckKey(Keys theKey)
-		{
-			return keyboardState.IsKeyUp(theKey) && 
-				oldKeyboardState.IsKeyDown(theKey);
-		}
+                (Game.Window.ClientBounds.Width - width) / 2,
+                (Game.Window.ClientBounds.Height - height) / 2);
+        }
 
-		public override void Update(GameTime gameTime)
-		{
-			keyboardState = Keyboard.GetState();
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
 
-			if (CheckKey(Keys.Right))
-			{
-				selectedIndex++;
-				if (selectedIndex ==  textures.Count())
-					selectedIndex = 0;
-			}
-			if (CheckKey(Keys.Left))
-			{
-				selectedIndex--;
-				if (selectedIndex < 0)
-					selectedIndex = textures.Count() - 1;
-			}
-            if(CheckKey(Keys.Q)){
+        private bool CheckKey(Keys theKey)
+        {
+            return keyboardState.IsKeyUp(theKey) &&
+                oldKeyboardState.IsKeyDown(theKey);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if(game.editorMenuState==EditorMenuState.TextureMenu){
+          
+            keyboardState = Keyboard.GetState();
+
+            if (CheckKey(Keys.Right))
+            {
+                selectedIndex++;
+                if (selectedIndex == textures.Count())
+                    selectedIndex = 0;
+            }
+            if (CheckKey(Keys.Left))
+            {
+                selectedIndex--;
+                if (selectedIndex < 0)
+                    selectedIndex = textures.Count() - 1;
+            }
+            if (CheckKey(Keys.Escape))
+            {
                 System.Console.WriteLine("ESCAPE");
+                game.editorMenuState=EditorMenuState.Editor;
+            }
+            if (CheckKey(Keys.Down))
+            {
+               
+                if (start + 20 <= textures.Count-20){
+                    selectedIndex=selectedIndex+20;
+                    start=start+20;
+                }
+                   
+
+                if (end + 20 <= textures.Count)
+                    end=end+20;
+                    
             }
 
-            if(CheckKey(Keys.Enter)){
-               textureLoadedToUse(textures.ElementAt(selectedIndex).Value,textures.ElementAt(selectedIndex).Key);
-                 
+            if (CheckKey(Keys.Up))
+            {
+               
+                if (start - 20 >= 0){
+                         selectedIndex=selectedIndex-20;
+                         start=start-20;
+                    }
+                   
+
+                if (end - 20 >= maxItems)
+                    if(end-20>0){
+                        end=end-20;
+                    }
+                   
             }
 
-			base.Update(gameTime);
+            if (CheckKey(Keys.Enter))
+            {
+                textureLoadedToUse(textures.ElementAt(selectedIndex).Value, textures.ElementAt(selectedIndex).Key);
 
-			oldKeyboardState = keyboardState;
-		}
+            }
+            }
+            base.Update(gameTime);
 
-		/*public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-			Vector2 location = position;
-			Color tint;
+            oldKeyboardState = keyboardState;
 
-			for (int i = 0; i < menuItems.Length; i++)
-			{
-				if (i == selectedIndex)
-					tint = hilite;
-				else
-					tint = normal;
-				spriteBatch.DrawString(
-					spriteFont,
-					menuItems[i],
-					location,
-					tint);
-				location.Y += spriteFont.LineSpacing + 5;
-			}
-		}*/
-          private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
+        }
+
+        private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
             // Draw top line
             Texture2D pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White }); // so that we can draw whatever color we want on top of it
 
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
-            
+
             // Draw left line
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
 
@@ -208,31 +238,51 @@ namespace ScreenManager
                                             rectangleToDraw.Width,
                                             thicknessOfBorder), borderColor);
         }
-        public void DrawMenu(){
+        public void DrawMenu()
+        {
             Vector2 location = position;
-			Color tint;
+            Color tint;
             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                                       texture.SetData<Color>(new Color[] { Color.Gray });
+            texture.SetData<Color>(new Color[] { Color.Gray });
 
-                                           
-            spriteBatch.Draw(texture,new Rectangle((int)location.X,(int)location.Y,300,250), Color.LightSlateGray);
-            int currentTileX=(int)location.X;
-            int currentTileY=(int)location.Y;
-            foreach (KeyValuePair<string, Texture2D> entry in textures) 
+
+            spriteBatch.Draw(texture, new Rectangle((int)location.X, (int)location.Y, 300, 250), Color.LightSlateGray);
+            int currentTileX = (int)location.X;
+            int currentTileY = (int)location.Y;
+
+			for(int i=start;i<end;i++){
+				KeyValuePair<string, Texture2D> entry=textures.ElementAt(i);
+			    spriteBatch.Draw(entry.Value, new Rectangle(currentTileX, currentTileY, 50, 50), Color.White);
+                currentTileX = currentTileX + 50;
+                if (currentTileX > location.X + 250)
+                {
+                    currentTileX = (int)location.X;
+                    currentTileY = currentTileY + 50;
+                }
+                if (textures.ElementAt(selectedIndex).Key == entry.Key)
+                {
+                    DrawBorder(new Rectangle(currentTileX, currentTileY, 50, 50), 2, Color.Red);
+                }
+
+			}
+
+           /* foreach (KeyValuePair<string, Texture2D> entry in textures)
             {
-               
-               spriteBatch.Draw(entry.Value,new Rectangle(currentTileX,currentTileY,50,50),Color.White);
-               currentTileX=currentTileX+50;
-               if(currentTileX>location.X+250){
-                   currentTileX=(int)location.X;
-                   currentTileY=currentTileY+50;
-               }
-               if(textures.ElementAt(selectedIndex).Key==entry.Key){
-                    DrawBorder(new Rectangle(currentTileX,currentTileY,50,50),2,Color.Red);
-               }
 
-            }
-        
+                spriteBatch.Draw(entry.Value, new Rectangle(currentTileX, currentTileY, 50, 50), Color.White);
+                currentTileX = currentTileX + 50;
+                if (currentTileX > location.X + 250)
+                {
+                    currentTileX = (int)location.X;
+                    currentTileY = currentTileY + 50;
+                }
+                if (textures.ElementAt(selectedIndex).Key == entry.Key)
+                {
+                    DrawBorder(new Rectangle(currentTileX, currentTileY, 50, 50), 2, Color.Red);
+                }
+
+            }*/
+
         }
-	}
+    }
 }

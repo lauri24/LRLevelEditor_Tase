@@ -1,3 +1,5 @@
+using System.Reflection.PortableExecutable;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -11,9 +13,16 @@ public class LevelStore{
 
     }
 
-    public void storeLevelAsJSON(System.Collections.Generic.List<TileObject> listIn,string fullPath){
+    public void storeLevelAsJSON(System.Collections.Generic.List<TileObject> listIn,MapInfoObject infoObject,string fullPath){
 
-          var json = JsonConvert.SerializeObject(listIn);
+          List<object> dataList = new List<object>();
+          IDictionary<string,MapInfoObject> windowMapInfo = new Dictionary<string, MapInfoObject>();
+          IDictionary<string,System.Collections.Generic.List<TileObject> > tilesInfo = new Dictionary<string,System.Collections.Generic.List<TileObject>>();
+          windowMapInfo.Add("MapWindowInfo",infoObject);
+          tilesInfo.Add("Tiles",listIn);
+          dataList.Add(windowMapInfo);
+          dataList.Add(tilesInfo);
+          var json = JsonConvert.SerializeObject(dataList);
           File.WriteAllText(fullPath,json);
     }
 

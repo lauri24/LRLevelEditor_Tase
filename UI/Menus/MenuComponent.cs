@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace ScreenManager
 {
-    public delegate void levelLoadedEventHandler(List<TileObject> level);
+    public delegate void levelLoadedEventHandler(List<TileObject> level,MapInfoObject mapInfo);
     public delegate void levelSavedEventHandler();
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
 	{
@@ -34,7 +34,7 @@ namespace ScreenManager
 		Vector2 position;
 		float width = 0f;
 		float height = 0f;
-
+		Game1 game;
 		public int SelectedIndex
 		{
 			get { return selectedIndex; }
@@ -50,7 +50,7 @@ namespace ScreenManager
         public void setMenuPosition(Vector2 posIn){
             position=posIn;
         }
-		public MenuComponent(Game game, 
+		public MenuComponent(Game1 game, 
 			SpriteBatch spriteBatch, 
 			SpriteFont spriteFont, 
 			string[] menuItems)
@@ -59,6 +59,7 @@ namespace ScreenManager
 			this.spriteBatch = spriteBatch;
 			this.spriteFont = spriteFont;
 			this.menuItems = menuItems;
+			this.game=game;
 			MeasureMenu();
             pathToLevel=Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"/Content/level1.json";
 		}
@@ -95,7 +96,7 @@ namespace ScreenManager
 		public override void Update(GameTime gameTime)
 		{
 			keyboardState = Keyboard.GetState();
-
+			if(game.editorMenuState==EditorMenuState.MainMenu){
 			if (CheckKey(Keys.Down))
 			{
 				selectedIndex++;
@@ -107,6 +108,10 @@ namespace ScreenManager
 				selectedIndex--;
 				if (selectedIndex < 0)
 					selectedIndex = menuItems.Length - 1;
+			}
+			if (CheckKey(Keys.Escape))
+			{
+				game.editorMenuState=EditorMenuState.Editor;
 			}
 
             if(CheckKey(Keys.Enter)){
@@ -122,8 +127,13 @@ namespace ScreenManager
                     using (StreamReader r = new StreamReader(pathToLevel))
                     {
                         string json = r.ReadToEnd();
-                        List<TileObject> levelObject = JsonConvert.DeserializeObject<List<TileObject>>(json);
-						foreach(TileObject tile in levelObject){
+                        List<Dictionary<string,dynamic>> levelObject = JsonConvert.DeserializeObject<List<Dictionary<string,dynamic>>>(json);
+						Dictionary<string, dynamic>.ValueCollection infoObjectvalues =levelObject[0].Values;  
+		//				 windowMapInfo.Add("MapWindowInfo",infoObject);
+      //    tilesInfo.Add("Tiles",listIn);
+						MapInfoObject infoObject= JsonConvert.DeserializeObject<MapInfoObject>(levelObject[0]["MapWindowInfo"].ToString());   
+						System.Collections.Generic.List<TileObject> tileObjects=JsonConvert.DeserializeObject<System.Collections.Generic.List<TileObject>>(levelObject[1]["Tiles"].ToString());   
+						foreach(TileObject tile in tileObjects){
 							if(tile.texturePath!=null){
 								 FileStream fileStream = new FileStream(tile.texturePath, FileMode.Open);
           						 tile.texture = Texture2D.FromStream(GraphicsDevice, fileStream);
@@ -132,7 +142,7 @@ namespace ScreenManager
 
 
 						}
-                        LevelLoadedFromJson(levelObject);
+                        LevelLoadedFromJson(tileObjects,infoObject);
                     }
                     
 
@@ -146,6 +156,7 @@ namespace ScreenManager
                      System.Console.WriteLine("Quit");
                      Game.Exit();
                 }
+			}
             }
 
 			base.Update(gameTime);
