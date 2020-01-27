@@ -18,7 +18,7 @@ using System.Reflection;
 using Myra;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.TextureAtlases;
-
+using UIMenusAndControls;
 
 namespace ScreenManager
 {
@@ -27,7 +27,7 @@ namespace ScreenManager
 
     public class ContextMenuComponent
     {
-
+        TilePropertiesWindow tilePropertiesWindow;
         Game1 game;
         Camera2d camera;
         GraphicsDevice graphicsDevice;
@@ -92,6 +92,15 @@ namespace ScreenManager
 
             var menuItem2 = new MenuItem();
             menuItem2.Text = "Options";
+            menuItem2.Selected += (s, a) =>
+            {
+                tilePropertiesWindow=new TilePropertiesWindow(tile);
+                tilePropertiesWindow.CenterOnDesktop();
+                tilePropertiesWindow.Show();
+                // "Start New Game" selected
+            };
+
+
 
             var menuItem3 = new MenuItem();
             menuItem3.Text = "Quit";

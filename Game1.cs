@@ -129,6 +129,7 @@ namespace monoGameCP
             IsMouseVisible = true;
             mapInfoObject.windowHeight = 600;
             mapInfoObject.windowWidth = 800;
+           
 
         }
         private void changeWindowSize(int x, int y)
@@ -218,6 +219,8 @@ namespace monoGameCP
                 }
             };
             // Desktop.TouchDown += (s, a) => ShowContextMenu();
+          
+            
         }
         public void onMapTypeChange(String msg)
         {
@@ -461,6 +464,10 @@ namespace monoGameCP
                 checkForMouseClick();
             }
 
+            //Tile property manager
+            //tilePropertiesWindow=new TilePropertiesWindow();
+            //tilePropertiesWindow.CenterOnDesktop();
+            //tilePropertiesWindow.Show();
           
             /*imgui.Begin(camera);
             scrollvalue = imgui.DoScrollbar(1, new Rectangle(-mapInfoObject.windowWidth/2,mapInfoObject.windowHeight-150,mapInfoObject.windowWidth, 50), scrollBackgroundTexture, scrollGripTexture, 100, scrollvalue, true,camera);
