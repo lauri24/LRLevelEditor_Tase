@@ -48,14 +48,16 @@ namespace monoGameCP
         public string texturePath;
 
         public bool isRotated;
+        public bool isFloor;
 
+        public bool isMoving;
         public float rotationAngle;
         public bool isCollidable;
         public bool isTextureAdded;
         [JsonIgnore]
         public Texture2D texture;
         public Rectangle Rectangle { get => rectangle; set => rectangle = value; }
-
+        public Dictionary<string, int> extraParameters =new Dictionary<string, int>();
         public TileObject()
         {
             layerDepth=0.0f;
@@ -73,6 +75,8 @@ namespace monoGameCP
             this.isTextureAdded=data.isTextureAdded;
             this.texture=data.texture;
             this.Rectangle=data.Rectangle;
+            this.isFloor=data.isFloor;
+            this.isMoving=data.isMoving;
 
         }
 
