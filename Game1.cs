@@ -181,7 +181,7 @@ namespace monoGameCP
             mapInfoObject.tileSize = 50;
            // gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             gridMapManager.drawIsometricGridSystem(mapInfoObject,camera,graphics);
-            mapInfoObject.mapType = "Default";
+            mapInfoObject.mapType = "Isometric";
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
             mapMenuComponent = new MapMenuComponent(this, graphics);
             mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
