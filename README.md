@@ -1,6 +1,7 @@
 ## Description
 
-Cross-platform level/map creating/editing tool made with monogame framework (C#). 
+Cross-platform level/map creating/editing tool made with monogame framework (C#).
+NB! This is made as an hobby.
 
 
 ## Currently used libaries
