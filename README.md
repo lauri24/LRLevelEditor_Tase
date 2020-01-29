@@ -17,7 +17,13 @@ Cross-platform level/map creating/editing tool made with monogame framework (C#)
 
 ## Pictures
 
-Inline-style: 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+Isometric map: 
+![alt text](https://github.com/lauri24/LRLevelEditor_Tase/blob/master/RepoImages/img1.PNG "Logo Title Text 1")
 
+Filled Isometric map example: 
+![alt text](https://github.com/lauri24/LRLevelEditor_Tase/blob/master/RepoImages/isotiled.PNG "Logo Title Text 1")
+
+Platformer map:
+
+![alt text](https://github.com/lauri24/LRLevelEditor_Tase/blob/master/RepoImages/platformer.PNG "Logo Title Text 1")
 
