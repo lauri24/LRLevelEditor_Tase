@@ -4,7 +4,8 @@ using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.Brushes;
-
+using System;
+using monoGameCP;
 #if !XENKO
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,9 +15,14 @@ using Xenko.Core.Mathematics;
 
 namespace ScreenManager
 {
-	partial class MapSizePropertiesWindow: Window
+	 public delegate void gridMapDimensionsChangeHandler(int width,int height,int tileSize);
+
+  
+    partial class MapSizePropertiesWindow: Window
 	{
-		private void BuildUI()
+		public event gridMapDimensionsChangeHandler changedGridMapToUse;
+
+		private void BuildUI(GraphicsDeviceManager graphics)
 		{
 			var label1 = new Label();
 			label1.Text = "Tile Size: ";
@@ -59,6 +65,16 @@ namespace ScreenManager
 			changeGridSave.Text = "Change Grid Size";
 			changeGridSave.Left = 360;
 			changeGridSave.Id = "changeGridSave";
+			changeGridSave.Click += (s, a) =>
+			{
+		
+            var width=Int32.Parse(mapWidthX.Text);//x oige
+            var height=Int32.Parse(mapHeigthY.Text);//y
+            var tileSizeVa=Int32.Parse(tileSize.Text);//tile
+            changedGridMapToUse((int)width,(int)height,(int)tileSizeVa);
+          
+		
+			};
 
 			var horizontalStackPanel3 = new HorizontalStackPanel();
 			horizontalStackPanel3.Widgets.Add(changeGridSave);
@@ -90,7 +106,18 @@ namespace ScreenManager
 			changeWindowSave.Text = "Change Window Size";
 			changeWindowSave.Left = 360;
 			changeWindowSave.Id = "changeWindowSave";
-
+			changeWindowSave.Click += (s, a) =>
+			{
+		
+				var width=Int32.Parse(windowWidthX.Text);//x oige
+				var height=Int32.Parse(windowHeigthY.Text);//y
+				
+				graphics.PreferredBackBufferHeight = (int)height;
+				graphics.PreferredBackBufferWidth = (int)width;
+				graphics.ApplyChanges();
+			// drawGridSystem((int)width,(int)height,(int)tileSize);
+		
+			};
 			var horizontalStackPanel5 = new HorizontalStackPanel();
 			horizontalStackPanel5.Widgets.Add(changeWindowSave);
 

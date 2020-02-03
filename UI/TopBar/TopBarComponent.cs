@@ -24,11 +24,11 @@ namespace ScreenManager
            public class TopBarMenuComponent {
                public event topBarMenuAction topBarMenuEventHandler;
                public event topBarMenuChangeMapType topBarMenuMapTypeEventHandler;
-               private  MapMenuComponent mapMenuComponent;
+               private  MapSizePropertiesWindow mapMenuComponent;
                private GridMapManager gridMapManager;
                Game1 game;
                Camera2d camera;
-            public TopBarMenuComponent(MapMenuComponent mapMenuComponentIn,GridMapManager gridMapManagerIn,Game1 gameIn,Camera2d cameraIn){
+            public TopBarMenuComponent(MapSizePropertiesWindow mapMenuComponentIn,GridMapManager gridMapManagerIn,Game1 gameIn,Camera2d cameraIn){
                this.mapMenuComponent=mapMenuComponentIn;
                this.game=gameIn;
                this.camera=cameraIn;
@@ -53,7 +53,8 @@ namespace ScreenManager
             menuItem1.Selected += (s, a) =>
             {
                 // "Start New Game" selected
-            mapMenuComponent.ShowGridResizingMenu();
+           
+                mapMenuComponent.Show();
 
                 
             };
@@ -84,8 +85,8 @@ namespace ScreenManager
             menuItem4.Selected += (s, a) =>
             {
                 // "Start New Game" selected
-                mapMenuComponent.ShowWindowResizingMenu();
-
+               // mapMenuComponent.ShowWindowResizingMenu();
+                 mapMenuComponent.Show();
                 
             };
         
