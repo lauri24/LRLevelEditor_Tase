@@ -101,7 +101,7 @@ namespace monoGameCP
         ContextMenuComponent tileContextMenu;
         MenuComponent menuComponent;
         TextureMenuComponent textureMenuComponent;
-        MapMenuComponent mapMenuComponent;
+        MapSizePropertiesWindow mapMenuComponent;
         KeyboardState previousState;
         TopBarMenuComponent topBarMenuComponent;
 
@@ -160,6 +160,7 @@ namespace monoGameCP
 
         protected override void LoadContent()
         {
+             MyraEnvironment.Game = this;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White }); // so that we can draw whatever color we want on top of it
@@ -181,10 +182,10 @@ namespace monoGameCP
             mapInfoObject.tileSize = 50;
            // gridMapManager.drawGridSystem(mapInfoObject, camera, graphics);
             gridMapManager.drawIsometricGridSystem(mapInfoObject,camera,graphics);
-            mapInfoObject.mapType = "Default";
+            mapInfoObject.mapType = "Isometric";
             string[] menuItems = { "Save Level", "Load Level", "Import Texture", "Level Layout Settings", "Quit" };
-            mapMenuComponent = new MapMenuComponent(this, graphics);
-            mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
+            mapMenuComponent = new MapSizePropertiesWindow(graphics);
+           // mapMenuComponent.setPositionOfMenu(new Vector2(camera._pos.X / 2, camera._pos.Y / 2));
             menuComponent = new MenuComponent(this, spriteBatch, mainMenuFont, menuItems);
             textureMenuComponent = new TextureMenuComponent(this, spriteBatch, mainMenuFont, menuItems);
             menuComponent.LevelLoadedFromJson += new levelLoadedEventHandler(onLevelLoaded);
@@ -194,8 +195,8 @@ namespace monoGameCP
 
             Components.Add(menuComponent);
             Components.Add(textureMenuComponent);
-            Components.Add(mapMenuComponent);
-            MyraEnvironment.Game = this;
+            //Components.Add(mapMenuComponent);
+           
             topBarMenuComponent = new TopBarMenuComponent(mapMenuComponent, gridMapManager, this, camera);
             topBarMenuComponent.BuildUITopBar();
             topBarMenuComponent.topBarMenuMapTypeEventHandler += new topBarMenuChangeMapType(onMapTypeChange);
@@ -214,11 +215,7 @@ namespace monoGameCP
                 }
                 if (Desktop.DownKeys.Contains(Keys.Escape))
                 {
-                    if (mapMenuComponent.IsGridResizeMenuEnabled())
-                    {
-                        mapMenuComponent.RemoveGridResizingMenu();
-                        editorMenuState=EditorMenuState.Editor;
-                    }
+                    
 
                 }
             };
@@ -259,7 +256,7 @@ namespace monoGameCP
                 gridMapManager.drawIsometricGridSystem(mapInfoObject, camera, graphics);
             }
 
-            mapMenuComponent.RemoveGridResizingMenu();
+             mapMenuComponent.RemoveFromDesktop();
             editorMenuState=EditorMenuState.Editor;
         }
         public void onUseTexture(Texture2D texture, string pathToTexture)
@@ -389,15 +386,7 @@ namespace monoGameCP
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if (mapMenuComponent.IsGridResizeMenuEnabled())
-                {
-                    mapMenuComponent.RemoveGridResizingMenu();
-                    editorMenuState=EditorMenuState.Editor;
-                }
-                else
-                {
-                    // Exit();
-                }
+               
 
             }
 
@@ -456,10 +445,6 @@ namespace monoGameCP
 
                 //                            spriteBatch.Draw(texture,new Rectangle(0,0,500,200), Color.Green);
 
-            }
-            else if (mapMenuComponent.IsGridResizeMenuEnabled())
-            {
-                mapMenuComponent.DrawBackground();
             }
             else
             {

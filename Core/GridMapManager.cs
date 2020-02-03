@@ -290,8 +290,6 @@ namespace monoGameCP
 
                 if (rect.isGreen)
                 {
-                    if (selectedTexture != null)
-                    {
                         if (rect.texture != null)
                         {
                             if (gridMapType == GridMapType.Default)
@@ -321,7 +319,7 @@ namespace monoGameCP
 
                             }
 
-                        }
+                        
 
                     }
                     else
