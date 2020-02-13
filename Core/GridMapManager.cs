@@ -12,6 +12,7 @@ using ScreenManager;
 using System.Collections.Generic;
 using RotatedRectangleCollisions;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using System.Linq;
 //Change namespace
 namespace monoGameCP
 {
@@ -250,6 +251,7 @@ namespace monoGameCP
                     }
                     else
                     {
+                      
                         TileObject newTile=new TileObject(rect);
                         
                         Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -260,7 +262,10 @@ namespace monoGameCP
                         newTile.texture = selectedTexture;
                         newTile.texturePath = selectedTexturePath;
                         newTile.isGreen = true;
-                        barriersList.Add(newTile);
+                          if(!barriersList.Any(n => n.Rectangle==newTile.Rectangle && n.layerDepth == newTile.layerDepth && n.texturePath==newTile.texturePath && n.texture==newTile.texture)){
+                                 barriersList.Add(newTile);
+                          }
+                       
                     }
                     //    spriteBatch.End();
                 }

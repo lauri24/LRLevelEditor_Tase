@@ -345,6 +345,16 @@ namespace monoGameCP
                 {
                     camera.Move(new Vector2(100.0f, 0));
                 }
+                    if (ks.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(
+                Keys.Up))
+                {
+                    camera.Move(new Vector2(0, -100.0f));
+                }
+                if (ks.IsKeyDown(Keys.Down) & !previousState.IsKeyDown(
+                Keys.Down))
+                {
+                    camera.Move(new Vector2(0, 100.0f));
+                }
                 if (ks.IsKeyDown(Keys.Z) & !previousState.IsKeyDown(
                 Keys.Z))
                 {

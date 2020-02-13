@@ -67,6 +67,9 @@ namespace UIMenusAndControls
 			isBrakable = new CheckBox();
 			isBrakable.Left = 70;
 			isBrakable.Id = "isBrakable";
+			isBrakable.Click +=(s,a)=>{
+				//tile.i=isBrakable.IsPressed;
+			};
 
 			var label5 = new Label();
 			label5.Text = "isMoving";
@@ -75,7 +78,9 @@ namespace UIMenusAndControls
 			isMoving = new CheckBox();
 			isMoving.Left = 100;
 			isMoving.Id = "isMoving";
-
+			isMoving.Click +=(s,a) =>{
+				tile.isMoving=isMoving.IsPressed;
+			};
 			var horizontalStackPanel2 = new HorizontalStackPanel();
 			horizontalStackPanel2.Widgets.Add(label2);
 			horizontalStackPanel2.Widgets.Add(isCollidable);
